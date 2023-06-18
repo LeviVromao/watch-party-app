@@ -5,6 +5,7 @@ import styles from "@/styles/Chat.module.css";
 import { IoSendSharp } from "react-icons/io5"
 import { useEffect, useState } from "react";
 import Pusher from "pusher-js";
+import Image from "next/image";
 
 export default function Talk({user, id}) {
     const [video, setVideo ] = useState("");
@@ -59,7 +60,7 @@ export default function Talk({user, id}) {
                     </iframe>
                     : 
                     <div className={styles.videoFake} onClick={handleAdvice}>
-                        <img 
+                        <Image 
                             src="/YoutubeLOGO.png" 
                             alt="A logo by Youtube" 
                             className={styles.logo}

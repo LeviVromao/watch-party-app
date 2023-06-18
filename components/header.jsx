@@ -5,6 +5,7 @@ import { FaUserCircle } from "react-icons/fa";
 import Pusher from "pusher-js";
 import { api } from "@/services/api";
 import { parseCookies } from "nookies";
+import Image from "next/image";
 
 export default function Header( { id, inputVideo } ) {
     const [video, setVideo] = useState("");
@@ -33,7 +34,7 @@ export default function Header( { id, inputVideo } ) {
         <>
             <header className={styles.header}>
                 <Link href={`home`}>
-                    <img 
+                    <Image 
                         src="https://th.bing.com/th/id/OIG.0GVPh3ai2S3CZWuUfrnx?pid=ImgGn" 
                         alt={`A icon for the chat app`} 
                         className={styles.chatIcon}
