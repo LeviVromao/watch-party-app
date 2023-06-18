@@ -1,0 +1,46 @@
+.main {
+    height: 91vh;
+    display: flex;
+}
+
+.videoContainer {
+    width: 82%;
+    padding: 10px;
+}
+
+.video {
+    width: 85%;
+    height: 90%;
+}
+
+.videoFake {
+    width: 85%;
+    height: 90%;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    cursor: pointer;
+}
+
+.logo {
+    width: 79px;
+}
+
+.logoOut {
+    display: none;
+}
+
+.advice {
+    color: #bbbbbb;
+    display: none;
+}
+
+.appearAdvice {
+    display: block;
+}
+
+
+
+
