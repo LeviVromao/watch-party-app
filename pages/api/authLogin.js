@@ -7,7 +7,6 @@ config();
 export default async function handler(req, res) {
   const { email, password } = req.body;
   
-  if(req.method === "POST") {
     try {
       const { mongoClient } = await connectToMongoDB();
       const user = await mongoClient.db("test").collection("users").findOne({email});
@@ -28,7 +27,4 @@ export default async function handler(req, res) {
     } catch (error) {
       res.json({"error": error})
     }
-  } else {
-    res.json({"error": "so podera ser usado com requisicoes do tipo post"});
-  }
 }
