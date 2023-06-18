@@ -12,10 +12,6 @@ export default function Home( {id, name} ) {
                 <title>Home - App</title>
                 <meta name="description" content="Home page for chat app "/>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="https://th.bing.com/th/id/OIG.DKYsTD6pJtVIu0.XWPy6?pid=ImgGn" />
-                <link rel="preconnect" href="https://fonts.googleapis.com"/>
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin></link>
-                <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap&family=Kanit&display=swap" rel="stylesheet"></link>
             </Head> 
             <div className={`container`}>
                 <Header id={id}/>
