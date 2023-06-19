@@ -35,9 +35,11 @@ export default function Header( { id, inputVideo } ) {
             <header className={styles.header}>
                 <Link href={`home`}>
                     <Image 
-                        src="https://th.bing.com/th/id/OIG.0GVPh3ai2S3CZWuUfrnx?pid=ImgGn" 
+                        src="/chatLogo.jpg" 
                         alt={`A icon for the chat app`} 
                         className={styles.chatIcon}
+                        width={60}
+                        height={60}
                     />
                 </Link>
 

@@ -64,6 +64,8 @@ export default function Talk({user, id}) {
                             src="/YoutubeLOGO.png" 
                             alt="A logo by Youtube" 
                             className={styles.logo}
+                            width={79}
+                            height={49}
                         />
                         <h1 className={styles.advice}>
                             Você precisa escolher um vídeo para poder assistir.
