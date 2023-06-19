@@ -20,11 +20,12 @@ export default function Talk({user, id}) {
       
         var channel = pusher.subscribe(room);
 
-        channel.bind('messages', function(data) {
+        channel.bind('videos', function(data) {
             if(data.error) {
-                setError(data.error)
+                setError(data.error);
             } else {
-                setVideo(data.video)
+                setVideo(data.video);
+                console.log("VIDEO:", data.video)
             }
         });
     }, [])
