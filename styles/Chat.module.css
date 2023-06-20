@@ -41,6 +41,75 @@
     display: block;
 }
 
+.chat {
+    display: grid;
+    grid-template-rows: max-content 1fr max-content;
+    width: 26%;
+    border: 1px solid black;
+}
+
+.chatHeader {
+    border-bottom: 1px solid black;
+    height: 36px;
+    padding: 8px;
+}
+
+.chatTitle {
+    font-size: 19px;
+    text-align: center;
+}
+
+.messagesContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px 10px 0 10px;
+    overflow-y: scroll;
+}
+
+.messageBox {
+    margin-bottom: 12px;
+}
+
+.inputContainer {
+    padding: 10px;
+}
+
+
+.form {
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.chatInput {
+    border: none;
+    width: 80%;
+    height: 43px;
+    padding-left: 11px;
+}
+
+.chatInput:focus {
+    outline: none;
+}
+
+.user {
+    font-family: 'Lilita one', cursive;
+    font-size: 14px;
+}
+
+.message {
+    font-size: 15px;
+}
+
+.submit {
+    width: 15%;
+    height: 43px;
+    border: none;
+    cursor: pointer;
+    font-size: 21px;
+}
+
 
 
 

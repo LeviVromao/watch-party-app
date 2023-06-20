@@ -1,8 +1,7 @@
 import styles from "./Header.module.css";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import Pusher from "pusher-js";
 import { api } from "@/services/api";
 import { parseCookies } from "nookies";
 import Image from "next/image";
@@ -17,7 +16,7 @@ export default function Header( { id, inputVideo } ) {
         const room = new URLSearchParams(window.location.search).get("room");
 
         if(video) {
-            await apiClient.post("/api/socket", {
+            await apiClient.post("/api/video", {
                 video,
                 room
             }, {

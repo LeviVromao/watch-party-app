@@ -6,21 +6,27 @@ import { IoSendSharp } from "react-icons/io5"
 import { useEffect, useState } from "react";
 import Pusher from "pusher-js";
 import Image from "next/image";
+import { api } from "@/services/api";
 
 export default function Talk({user, id}) {
     const [video, setVideo ] = useState("");
     const [error, setError] = useState("");
+    const [sendMessage, setSendMessage] = useState("");
+    const [messages, setMessages] = useState([]);
+    const [room, setRoom] = useState("");
     
     useEffect(() => {
         var pusher = new Pusher('d91deb037f91cc154527', {
             cluster: 'sa1'
           });
         
-        const room = new URLSearchParams(window.location.search).get("room");
-      
+        const roomQuery = new URLSearchParams(window.location.search).get("room");
+        const roomValue = roomQuery || "";
+        setRoom(roomValue);
+
         var channel = pusher.subscribe(room);
 
-        channel.bind('videos', function(data) {
+        channel.bind('videos', (data) => {
             if(data.error) {
                 setError(data.error);
             } else {
@@ -28,7 +34,15 @@ export default function Talk({user, id}) {
                 console.log("VIDEO:", data.video)
             }
         });
-    }, [])
+
+        channel.bind('messages', (data) => {
+            setMessages(prevMessages => [...prevMessages, data.message]);
+
+        })
+        return () => {
+            pusher.unsubscribe(room);
+          };
+    }, [room])
 
     const handleAdvice = () => {
         const logoImage = document.querySelector(`.${styles.logo}`);
@@ -36,6 +50,27 @@ export default function Talk({user, id}) {
         const advice = document.querySelector(`.${styles.advice}`);
         advice.classList.toggle(styles.appearAdvice)
     }
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+        const {"auth.token": token} = parseCookies();
+        const room = new URLSearchParams(window.location.search).get("room");
+        
+        if(sendMessage) {
+            await api.post("/api/messages", {
+                sendMessage,
+                room,
+            }, {
+                headers: {
+                    Authorization: token
+                }
+            })
+        }
+        
+        setSendMessage("");
+    }
+
+        
 
     return (
         <>
@@ -74,24 +109,45 @@ export default function Talk({user, id}) {
                     </div>   
                 }
                 </div>
-                <div className={`styles.chat`}>
-                    <div className={`styles.chatHeader`}>
-                        <button>➡️</button>
-                        <h1>CHAT DA TRANSMISSÃO</h1>
-                    </div>
-                    
-                    <div className={`styles.messagesContainer`}>
-                        <div className={`styles.messageBox`}>
-                            <p className={`styles.message`}>
-                                5 ADS 🥹
-                            </p>
-                        </div>
+                <div className={styles.chat}>
+                    <div className={styles.chatHeader}>
+                        <h1 className={styles.chatTitle}>
+                            CHAT DA TRANSMISSÃO
+                        </h1>
                     </div>
 
-                    <div className={`styles.chatInput`}>
-                        <form action="">
-                            <input type="text" name="" id="" />
-                            <button onSubmit={() => console.log("funcionou")}>
+                    <div className={styles.messagesContainer}>
+                        {messages ? 
+                            messages.map((msg, index) => (
+                                <div 
+                                    key={index} 
+                                    className={styles.messageBox}
+                                >
+                                    <p className={styles.user}>
+                                        {`${user} :`}
+                                    </p>
+                                    <p className={styles.message}>
+                                        {msg}
+                                    </p>
+                                </div>   
+                            ))
+                            : ""
+                        }
+                        
+                    </div>
+
+                    <div className={styles.inputContainer}>
+                        <form className={styles.form} onSubmit={handleSubmit}>
+                            <input 
+                                type="text" 
+                                className={styles.chatInput}
+                                value={ sendMessage }
+                                onChange={e => setSendMessage(e.target.value)}
+                            />
+                            <button 
+                                type="submit"
+                                className={styles.submit}
+                            >
                                 <IoSendSharp />
                             </button>
                         </form>
