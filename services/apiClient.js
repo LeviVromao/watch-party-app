@@ -9,6 +9,7 @@ export function getApiClient(ctx) {
     })
 
     //https://watch-party-beta.vercel.app/
+    //https://watch-party-steel.vercel.app/
 
     api.interceptors.request.use(config => {
 
