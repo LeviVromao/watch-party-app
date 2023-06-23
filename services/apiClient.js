@@ -1,20 +1,23 @@
-import axios from "axios";
-import { parseCookies } from "nookies";
+import axios from 'axios';
+import { parseCookies } from 'nookies';
 
 export function getApiClient(ctx) {
-    const {["auth.token"]: token} = parseCookies(ctx);
+    const {['auth.token']: token} = parseCookies(ctx);
     
     const api = axios.create({
-        baseURL: "https://watch-party-beta.vercel.app/"
+        baseURL: 'https://watch-party-beta.vercel.app/'
     })
 
     //https://watch-party-beta.vercel.app/
 
-    api.interceptors.request.use(config => config);
+    api.interceptors.request.use(config => {
+        
+        if( token ) {
+            config.headers.Authorization = token
+        }
 
-    if(token) {
-        api.defaults.headers.authorization = token;
-    }
+        return config;
+    });
 
     return api;
 }

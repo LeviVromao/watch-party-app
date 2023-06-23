@@ -1,3 +1,3 @@
-import { getApiClient } from "./apiClient";
+import { getApiClient } from './apiClient';
 
 export const api = getApiClient();

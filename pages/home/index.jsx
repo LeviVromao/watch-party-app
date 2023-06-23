@@ -3,7 +3,7 @@ import { parseCookies } from "nookies";
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import Header from "@/components/header";
-import {AiOutlineArrowUp} from "react-icons/ai"
+import { AiOutlineArrowUp } from "react-icons/ai"
 
 export default function Home( { id, name, picture } ) {
     return (

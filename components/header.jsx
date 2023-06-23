@@ -70,6 +70,8 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
                             src={img} 
                             alt={`A photo by ${user}`} 
                             className={styles.profileImage}
+                            width={50}
+                            height={50}
                         />                          
                     </Link>
                 : 
