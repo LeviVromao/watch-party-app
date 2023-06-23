@@ -1,12 +1,11 @@
-import { getApiClient } from './apiClient';
+import { api } from './api';
 
-export async function getAllPaths(ctx) {
+export async function getAllPaths() {
 
-    const apiClient = getApiClient(ctx);
-    
-    const { data } = await apiClient.get( '/api/paths' );
+    const { data } = await api.get( '/api/paths' );
     
     const ids = data.ids;
+    
     const paths = ids.map(id => {
         return {
             params: {id}

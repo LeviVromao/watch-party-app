@@ -151,8 +151,8 @@ export default function ProfileIDS( { id, name, picture } ){
     )
 }
 
-export const getStaticPaths = async (ctx) => {
-    const paths = await getAllPaths(ctx);
+export const getStaticPaths = async () => {
+    const paths = await getAllPaths();
 
     return {
         paths,

@@ -12,11 +12,11 @@ export function getApiClient(ctx) {
 
     api.interceptors.request.use(config => {
         
-        if( token ) {
-            config.headers.Authorization = token
+        if(token) {
+            config.headers.Authorization = token;
         }
 
-        return config;
+        return config
     });
 
     return api;
