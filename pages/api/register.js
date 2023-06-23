@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 config();
 
-export default async function (req, res) {
+export default async function handler(req, res) {
     const { email, password } = req.body;
 
     if( req.method === 'POST' ) {
@@ -53,7 +53,9 @@ export default async function (req, res) {
             }
 
         } catch (error) {
-        
+
+            res.status(500).json( { error: 'Server error' } );
+
         }             
         
     }
