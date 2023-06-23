@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useContext, useState } from "react";
 import { MdEmail } from "react-icons/md";
-import { RiH1, RiLockPasswordFill } from "react-icons/ri";
+import { RiLockPasswordFill } from "react-icons/ri";
 import { authContext } from "@/context/authProvider";
 
 export default function Login() {
@@ -47,7 +47,7 @@ export default function Login() {
               onChange={ event => setPass(event.target.value)}
             />
           </div>
-          <a href="/register">Não possui uma conta? faça o cadastro</a>
+          <Link href="/register">Não possui uma conta? faça o cadastro</Link>
           <div className={`inputCamp`}>
             <input type="submit" className={`inputSubmit`} />
           </div>

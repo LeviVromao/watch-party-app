@@ -8,7 +8,7 @@ import styles from "@/styles/Profile.module.css"
 import  Router  from "next/router";
 import { useState } from "react";
 
-export default function profileIDS( { id, name, picture } ){
+export default function ProfileIDS( { id, name, picture } ){
     const [newName, setNewName] = useState("");
     const [image, setImage] = useState();
     const [error, setError] = useState("");

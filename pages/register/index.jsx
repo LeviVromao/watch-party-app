@@ -56,7 +56,7 @@ export default function Register() {
                   onChange={ event => setPass(event.target.value)}
                 />
               </div>
-              <a href="/register">Já possui uma conta? faça o login</a>
+              <Link href="/register">Já possui uma conta? faça o login</Link>
               <div className={`inputCamp`}>
                 <input type="submit" className={`inputSubmit`} />
               </div>
