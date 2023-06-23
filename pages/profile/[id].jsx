@@ -1,6 +1,7 @@
 import Header from "@/components/header";
 import { api } from "@/services/api";
 import { getAllPaths } from "@/services/paths";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "@/styles/Profile.module.css"
@@ -57,6 +58,13 @@ export default function profileIDS( { id, name, picture } ){
 
     return (
         <>
+            <Head>
+                <title>Profile - App</title>
+                <meta name="description" content="Home page for warch party app "/>
+                <meta name="description" content="watch party app see videos with friends" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="https://th.bing.com/th/id/OIG.DKYsTD6pJtVIu0.XWPy6?pid=ImgGn" />
+            </Head> 
             <Header noProfile/>
             <main className={styles.main} >
                 <form 

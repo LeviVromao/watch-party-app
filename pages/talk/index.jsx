@@ -1,6 +1,7 @@
 import { getApiClient } from "@/services/apiClient"
 import { parseCookies } from "nookies";
 import Header from "@/components/header";
+import Head from "next/head";
 import styles from "@/styles/Chat.module.css";
 import { IoSendSharp } from "react-icons/io5"
 import { useEffect, useState } from "react";
@@ -78,6 +79,13 @@ export default function Talk({ user, id, picture }) {
 
     return (
         <>
+            <Head>
+                <title>Watch Party - App</title>
+                <meta name="description" content="Home page for warch party app "/>
+                <meta name="description" content="watch party app see videos with friends" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="https://th.bing.com/th/id/OIG.DKYsTD6pJtVIu0.XWPy6?pid=ImgGn" />
+            </Head>
             {error? alert(error) : ""}
             <Header id={id} inputVideo={true} img={picture} user={user}/>
             <main className={styles.main}>

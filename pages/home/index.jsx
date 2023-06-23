@@ -10,8 +10,10 @@ export default function Home( { id, name, picture } ) {
         <>
            <Head>
                 <title>Home - App</title>
-                <meta name="description" content="Home page for chat app "/>
+                <meta name="description" content="Home page for warch party app "/>
+                <meta name="description" content="watch party app see videos with friends" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="https://th.bing.com/th/id/OIG.DKYsTD6pJtVIu0.XWPy6?pid=ImgGn" />
             </Head> 
             <div className={`container`}>
                 <Header id={id} img={picture} user={name}/>
