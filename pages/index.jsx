@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { useContext, useState } from "react";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
