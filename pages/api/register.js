@@ -2,6 +2,7 @@ import { connectToMongoDB } from '@/lib/mongoDb';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
+config();
 
 export default async function (req, res) {
     const { email, password } = req.body;

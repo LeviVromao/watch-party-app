@@ -66,7 +66,7 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
                     ""
                 : img? 
                     <Link href={`/profile/${id}`}>
-                        <img 
+                        <Image 
                             src={img} 
                             alt={`A photo by ${user}`} 
                             className={styles.profileImage}
