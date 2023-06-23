@@ -1,7 +1,7 @@
 import Pusher from "pusher";
 
 export default function handler(req, res) {
-    const { sendMessage:message, room } = req.body;
+    const { sendMessage:message, room, user: name = '' } = req.body;
     const sanitizedMess = message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     const token = req.headers.authorization;
 
@@ -16,7 +16,8 @@ export default function handler(req, res) {
             });
             
             pusher.trigger(room, 'messages', { 
-                message: sanitizedMess 
+                message: sanitizedMess, 
+                name
             })
         }
         res.json({});

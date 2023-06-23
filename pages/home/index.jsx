@@ -5,7 +5,7 @@ import styles from "@/styles/Home.module.css";
 import Header from "@/components/header";
 import {AiOutlineArrowUp} from "react-icons/ai"
 
-export default function Home( {id, name} ) {
+export default function Home( { id, name, picture } ) {
     return (
         <>
            <Head>
@@ -14,7 +14,7 @@ export default function Home( {id, name} ) {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head> 
             <div className={`container`}>
-                <Header id={id}/>
+                <Header id={id} img={picture} user={name}/>
                 <main className={styles.main}>
                     {name? 
                         <div className={styles.saudation}>
@@ -77,13 +77,15 @@ export const getServerSideProps = async (ctx) =>{
             Authorization: token,
         }
     });
-    
-    const { id, name } = data;
+
+    const { id, name = '', picture = '' } = data
 
     return {
         props: {
-            id,
-            name,
+            id, 
+            ...(name && {name}), 
+            ...(picture && {picture})
         }
     }
+
 }

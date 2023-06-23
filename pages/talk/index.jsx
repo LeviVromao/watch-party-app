@@ -8,11 +8,12 @@ import Pusher from "pusher-js";
 import Image from "next/image";
 import { api } from "@/services/api";
 
-export default function Talk({user, id}) {
+export default function Talk({ user, id, picture }) {
     const [video, setVideo ] = useState("");
     const [error, setError] = useState("");
     const [sendMessage, setSendMessage] = useState("");
     const [messages, setMessages] = useState([]);
+    const [username, setUsername] = useState("");
     const [room, setRoom] = useState("");
     
     useEffect(() => {
@@ -36,8 +37,10 @@ export default function Talk({user, id}) {
         });
 
         channel.bind('messages', (data) => {
-            setMessages(prevMessages => [...prevMessages, data.message]);
-
+            setMessages(prevMessages => [
+                ...prevMessages,
+                { message: data.message, name: data.name }
+              ]);
         })
         return () => {
             pusher.unsubscribe(room);
@@ -60,6 +63,7 @@ export default function Talk({user, id}) {
             await api.post("/api/messages", {
                 sendMessage,
                 room,
+                user,
             }, {
                 headers: {
                     Authorization: token
@@ -75,7 +79,7 @@ export default function Talk({user, id}) {
     return (
         <>
             {error? alert(error) : ""}
-            <Header id={id} inputVideo={true}/>
+            <Header id={id} inputVideo={true} img={picture} user={user}/>
             <main className={styles.main}>
                 <div className={styles.videoContainer}>
                 {video? 
@@ -122,14 +126,14 @@ export default function Talk({user, id}) {
                                 <div 
                                     key={index} 
                                     className={styles.messageBox}
-                                >
-                                    <p className={styles.user}>
-                                        {`${user} :`}
-                                    </p>
-                                    <p className={styles.message}>
-                                        {msg}
-                                    </p>
-                                </div>   
+                                 >
+                                <p className={styles.user}>
+                                    {user || msg.name? (msg.name !== user ? `${msg.name}`: `${user}`) : user = 'TROQUE_DE_NOME'}
+                                </p>
+                                <p className={styles.message}>
+                                    {msg.message}
+                                </p>
+                            </div>   
                             ))
                             : ""
                         }
@@ -177,11 +181,13 @@ export const getServerSideProps = async (ctx) => {
         }
     })
     
-    const { name: user, id, photo } = data;
+    const { name: user = '', id, picture = '' } = data;
 
     return{
         props: {
-            user, id
+            id,
+            ...(user && {user}),
+            ...(picture && {picture})
         }
     }
 }

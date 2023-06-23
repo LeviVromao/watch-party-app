@@ -6,9 +6,8 @@ import { api } from "@/services/api";
 import { parseCookies } from "nookies";
 import Image from "next/image";
 
-export default function Header( { id, inputVideo } ) {
+export default function Header( { id, inputVideo, noProfile, img, user } ) {
     const [video, setVideo] = useState("");
-
     const sendVideo = async event =>{
         event.preventDefault();
         const {"auth.token": token} = parseCookies();
@@ -32,7 +31,7 @@ export default function Header( { id, inputVideo } ) {
     return (
         <>
             <header className={styles.header}>
-                <Link href={`home`}>
+                <Link href={`/home`}>
                     <Image 
                         src="/chatLogo.jpg" 
                         alt={`A icon for the chat app`} 
@@ -63,10 +62,22 @@ export default function Header( { id, inputVideo } ) {
                     </form> : 
                         ""
                     }
+                { noProfile? 
+                    ""
+                : img? 
+                    <Link href={`/profile/${id}`}>
+                        <img 
+                            src={img} 
+                            alt={`A photo by ${user}`} 
+                            className={styles.profileImage}
+                        />                          
+                    </Link>
+                : 
+                    <Link href={`/profile/${id}`}>
+                        <FaUserCircle className={styles.defaultProfile}/>
+                    </Link>
+                }
 
-                <Link href={`profile/${id}`}>
-                    <FaUserCircle className={styles.profileImage}/>                          
-                </Link>
             </header>
         </>
     )
