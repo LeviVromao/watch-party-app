@@ -23,7 +23,7 @@ export default function handler(req, res) {
 
                 const videoId = video.match(/v=([^&]+)/)[1];
                 try {
-                    
+                    console.log('Video ID', videoId);
                     pusher.trigger(room, 'videos', {
                         video: videoId
                     })
