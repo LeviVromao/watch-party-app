@@ -3,10 +3,9 @@ import { parseCookies } from 'nookies';
 
 export function getApiClient( ctx ) {
     const { ['auth.token']: token } = parseCookies(ctx);
-    console.log(process.env.VERCEL_URL)
    
     const api = axios.create({
-        baseURL: `http://${process.env.VERCEL_URL}`
+        baseURL: `http://https://watch-party-app-jade.vercel.app`
     })
 
     // 
