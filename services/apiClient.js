@@ -5,10 +5,10 @@ export function getApiClient( ctx ) {
     const { ['auth.token']: token } = parseCookies(ctx);
    
     const api = axios.create({
-        baseURL: `http://localhost:3000`
+        baseURL: `https://watch-party-app-jade.vercel.app`
     })
 
-    // https://watch-party-app-jade.vercel.app
+    // http://localhost:3000
 
     api.interceptors.request.use(config => {
 
