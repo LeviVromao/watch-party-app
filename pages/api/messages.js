@@ -21,13 +21,12 @@ export default function handler(req, res) {
                 pusher.trigger(room, 'messages', { 
                     message: sanitizedMess, 
                     name
-                })
+                }, () => res.status(200).end('sent event successfully'));
 
             } catch (error) {
                 res.json( { error } );
             }
         }
-        res.json({});
     } else {
         res.status(405).json({"error": "Method not allowed"})
     }

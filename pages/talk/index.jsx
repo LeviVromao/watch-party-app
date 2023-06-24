@@ -14,7 +14,6 @@ export default function Talk({ user, id, picture }) {
     const [error, setError] = useState("");
     const [sendMessage, setSendMessage] = useState("");
     const [messages, setMessages] = useState([]);
-    const [username, setUsername] = useState("");
     const [room, setRoom] = useState("");
     
     useEffect(() => {
@@ -42,9 +41,11 @@ export default function Talk({ user, id, picture }) {
                 { message: data.message, name: data.name }
               ]);
         })
+
         return () => {
             pusher.unsubscribe(room);
           };
+          
     }, [room])
 
     const handleAdvice = () => {
@@ -85,11 +86,13 @@ export default function Talk({ user, id, picture }) {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="https://th.bing.com/th/id/OIG.DKYsTD6pJtVIu0.XWPy6?pid=ImgGn" />
             </Head>
+
             {error? alert(error) : ""}
+
             <Header id={id} inputVideo={true} img={picture} user={user}/>
+
             <main className={styles.main}>
                 <div className={styles.videoContainer}>
-                {console.log(video) }
                 {video? 
                     <iframe 
                         src={`https://www.youtube.com/embed/${video}`} 
