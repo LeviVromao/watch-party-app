@@ -5,18 +5,19 @@ import {config} from "dotenv";
 config();
 
 export default async function handler(req, res) {
-  const { email, password } = req.body;
+  if(req.method === 'POST') {
+    const { email, password } = req.body;
 
     try {
 
       const { mongoClient } = await connectToMongoDB();
       const user = await mongoClient.db("test").collection("users").findOne({email});
       
-      if(!user) return res.json({"error": "Senha ou/ email não cadastrados."});
+      if(!user) return res.json( { error: "Senha ou/ email não cadastrados." } );
 
       bcrypt.compare(password, user.password, (err, isValid) => {
 
-        if(err) return res.json({"error": err});
+        if(err) return res.json( { error: err } );
 
         if(isValid && user) {
 
@@ -27,17 +28,18 @@ export default async function handler(req, res) {
 
           );
           
-          return res.json({"user": user, "token": token});
+          return res.json( {"user": user, "token": token} );
 
         } 
 
-          res.json({"error": "Senha não cadastrada."});
+          res.json({ error: "Senha não cadastrada." });
 
       });
 
     } catch (error) {
 
-      res.json({"error": error});
+      res.json( { error });
 
     }
+  }
 }
