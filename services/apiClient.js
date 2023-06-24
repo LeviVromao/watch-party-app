@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { parseCookies } from 'nookies';
 
-export function getApiClient(ctx) {
+export function getApiClient( ctx ) {
     const { ['auth.token']: token } = parseCookies(ctx);
     
     const api = axios.create({
-        baseURL: 'http://localhost:3000/'
+        baseURL: `https://${process.env.VERCEL_URL}`
     })
 
     api.interceptors.request.use(config => {
