@@ -5,6 +5,7 @@ export default function handler(req, res) {
     const { video, room } = req.body;
     
     if(req.method === 'POST') {
+
         if(token) {
             const pusher = new Pusher({
                 appId: "1624128",
@@ -17,22 +18,32 @@ export default function handler(req, res) {
             const url = video;
             const regex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?(?=.*v=[\w-]+)(?:\S+)?|embed\/[\w-]+|v\/[\w-]+|(?:(?:[\w-]+\.)*[\w-]+\/?)\S+)|youtu\.be\/[\w-]+)$/;
             const isYoutubeURL = regex.test(url);
+
             if(isYoutubeURL) {
+
                 const videoId = video.match(/v=([^&]+)/)[1];
                 try {
+                    
                     pusher.trigger(room, 'videos', {
                         video: videoId
                     })
+
                 } catch (error) {
                     console.error(error);
                 }
+
             } else {
+
                 pusher.trigger(room, 'videos', {
                     error: "Atualmente so é aceito vídeos do youtube."
                 })
+
             }
+
            res.json([])
+
         }
+
     } else {  
         res.status(405).json({ error: 'Method Not Allowed' })
     }

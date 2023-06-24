@@ -8,7 +8,7 @@ export function getApiClient( ctx ) {
         baseURL: `https://watch-party-app-jade.vercel.app`
     })
 
-    // http://localhost:3000
+    // https://watch-party-app-jade.vercel.app
 
     api.interceptors.request.use(config => {
 

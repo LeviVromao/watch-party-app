@@ -8,8 +8,10 @@ import Image from "next/image";
 
 export default function Header( { id, inputVideo, noProfile, img, user } ) {
     const [video, setVideo] = useState("");
+
     const sendVideo = async event =>{
         event.preventDefault();
+        
         const {"auth.token": token} = parseCookies();
         const apiClient = api;
         const room = new URLSearchParams(window.location.search).get("room");

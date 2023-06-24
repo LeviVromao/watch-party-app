@@ -8,6 +8,7 @@ export default function handler(req, res) {
     if(req.method === 'POST') {
         if(token) {
             try {
+                
                 const pusher = new Pusher({
                     appId: "1624128",
                     key: "91b3f8b373b617f82771",
@@ -20,6 +21,7 @@ export default function handler(req, res) {
                     message: sanitizedMess, 
                     name
                 })
+
             } catch (error) {
                 res.status(500).json( { error } );
             }

@@ -126,7 +126,7 @@ export default function Talk({ user, id, picture }) {
                             CHAT DA TRANSMISSÃO
                         </h1>
                     </div>
-
+                    
                     <div className={styles.messagesContainer}>
                         {messages ? 
                             messages.map((msg, index) => (
