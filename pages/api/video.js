@@ -7,9 +7,9 @@ export default function handler(req, res) {
     if(req.method === 'POST') {
         if(token) {
             const pusher = new Pusher({
-                appId: "1620702",
-                key: "d91deb037f91cc154527",
-                secret: "74b259df5390db0e7395",
+                appId: "1624128",
+                key: "91b3f8b373b617f82771",
+                secret: "fb09525b35dae0e2f097",
                 cluster: "sa1",
                 useTLS: true
             });
@@ -19,9 +19,13 @@ export default function handler(req, res) {
             const isYoutubeURL = regex.test(url);
             if(isYoutubeURL) {
                 const videoId = video.match(/v=([^&]+)/)[1];
-                pusher.trigger(room, 'videos', {
-                    video: videoId
-                })
+                try {
+                    pusher.trigger(room, 'videos', {
+                        video: videoId
+                    })
+                } catch (error) {
+                    console.error(error);
+                }
             } else {
                 pusher.trigger(room, 'videos', {
                     error: "Atualmente so é aceito vídeos do youtube."

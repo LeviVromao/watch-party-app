@@ -18,7 +18,7 @@ export default function Talk({ user, id, picture }) {
     const [room, setRoom] = useState("");
     
     useEffect(() => {
-        var pusher = new Pusher('d91deb037f91cc154527', {
+        const pusher = new Pusher('91b3f8b373b617f82771', {
             cluster: 'sa1'
           });
         

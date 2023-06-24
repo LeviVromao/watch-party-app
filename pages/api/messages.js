@@ -7,18 +7,22 @@ export default function handler(req, res) {
 
     if(req.method === 'POST') {
         if(token) {
-            const pusher = new Pusher({
-                appId: "1620702",
-                key: "d91deb037f91cc154527",
-                secret: "74b259df5390db0e7395",
-                cluster: "sa1",
-                useTLS: true
-            });
-            
-            pusher.trigger(room, 'messages', { 
-                message: sanitizedMess, 
-                name
-            })
+            try {
+                const pusher = new Pusher({
+                    appId: "1624128",
+                    key: "91b3f8b373b617f82771",
+                    secret: "fb09525b35dae0e2f097",
+                    cluster: "sa1",
+                    useTLS: true
+                  });
+                
+                pusher.trigger(room, 'messages', { 
+                    message: sanitizedMess, 
+                    name
+                })
+            } catch (error) {
+                res.status(500).json( { error } );
+            }
         }
         res.json({});
     } else {
