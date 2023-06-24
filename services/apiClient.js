@@ -6,7 +6,7 @@ export function getApiClient( ctx ) {
     console.log(process.env.VERCEL_URL)
    
     const api = axios.create({
-        baseURL: `https://${process.env.VERCEL_URL}`
+        baseURL: `http://${process.env.VERCEL_URL}`
     })
 
     // 

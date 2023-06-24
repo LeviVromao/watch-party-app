@@ -33,7 +33,6 @@ export default function Talk({ user, id, picture }) {
                 setError(data.error);
             } else {
                 setVideo(data.video);
-                console.log("VIDEO:", data.video)
             }
         });
 
