@@ -1,6 +1,5 @@
 import Header from "@/components/header";
 import { api } from "@/services/api";
-import { getAllPaths } from "@/services/paths";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -152,7 +151,13 @@ export default function ProfileIDS( { id, name, picture } ){
 }
 
 export const getStaticPaths = async () => {
-    const paths = await getAllPaths();
+    const { data } = await api.get( "/api/paths" );
+
+    const paths = data.ids.map(id => {
+        return {params: { id } }
+    })
+
+    console.log(paths);
 
     return {
         paths,
