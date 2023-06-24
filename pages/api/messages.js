@@ -6,16 +6,17 @@ export default function handler(req, res) {
     const token = req.headers.authorization;
 
     if(req.method === 'POST') {
+
         if(token) {
             try {
-                
+
                 const pusher = new Pusher({
                     appId: "1624128",
                     key: "91b3f8b373b617f82771",
                     secret: "fb09525b35dae0e2f097",
                     cluster: "sa1",
                     useTLS: true
-                  });
+                });
                 
                 pusher.trigger(room, 'messages', { 
                     message: sanitizedMess, 
@@ -23,7 +24,7 @@ export default function handler(req, res) {
                 })
 
             } catch (error) {
-                res.status(500).json( { error } );
+                res.json( { error } );
             }
         }
         res.json({});

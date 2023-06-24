@@ -7,6 +7,7 @@ export default function handler(req, res) {
     if(req.method === 'POST') {
 
         if(token) {
+            
             const pusher = new Pusher({
                 appId: "1624128",
                 key: "91b3f8b373b617f82771",

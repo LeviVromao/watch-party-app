@@ -89,6 +89,7 @@ export default function Talk({ user, id, picture }) {
             <Header id={id} inputVideo={true} img={picture} user={user}/>
             <main className={styles.main}>
                 <div className={styles.videoContainer}>
+                {console.log(video)}
                 {video? 
                     <iframe 
                         src={`https://www.youtube.com/embed/${video}`} 
