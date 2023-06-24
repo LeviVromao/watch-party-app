@@ -151,14 +151,14 @@ export default function ProfileIDS( { id, name, picture } ){
 }
 
 export const getStaticPaths = async () => {
-    //const { data } = await api.get( "/api/paths" );
+    const { data } = await api.get( "/api/paths" );
 
-    //const paths = data.ids.map(id => {
-    //    return {params: { id } }
-    //})
+    const paths = data.ids.map(id => {
+        return {params: { id } }
+    })
 
     return {
-        paths: [],
+        paths,
         fallback: false
     }
 }
