@@ -27,7 +27,7 @@ export default function handler(req, res) {
                     console.log('Video ID', videoId);
                     pusher.trigger(room, 'videos', {
                         video: videoId
-                    })
+                    }, () => res.status(200).end('sent event successfully'));
 
                 } catch (error) {
                     console.error(error);
@@ -40,8 +40,6 @@ export default function handler(req, res) {
                 })
 
             }
-
-           res.json([])
 
         }
 

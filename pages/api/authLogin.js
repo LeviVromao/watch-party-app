@@ -13,7 +13,7 @@ export default async function handler(req, res) {
       const { mongoClient } = await connectToMongoDB();
       const user = await mongoClient.db("test").collection("users").findOne({email});
       
-      if(!user) return res.json( { error: "Senha ou/ email não cadastrados." } );
+      if(!user) return res.json( { error: "*Senha ou/ email não cadastrados.*" } );
 
       bcrypt.compare(password, user.password, (err, isValid) => {
 
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
 
         } 
 
-          res.json({ error: "Senha não cadastrada." });
+          res.json({ error: "*Senha não cadastrada.*" });
 
       });
 

@@ -24,7 +24,7 @@ export default function handler(req, res) {
                 }, () => res.status(200).end('sent event successfully'));
 
             } catch (error) {
-                res.json( { error } );
+                console.error( error );
             }
         }
     } else {

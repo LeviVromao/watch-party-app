@@ -1,3 +1,77 @@
+.main {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('https://wallpaperaccess.com/full/2063938.png');
+    background-position: bottom;
+    background-size: cover;
+}
+
+.form {
+    height: 412px;
+    padding-top: 82px;
+    border-radius: 10px;
+    width: 57%;
+    min-width: 330px;
+    max-width: 416px;
+    border: 1px solid #f1f1f1;
+    background-color: #f1f1f1;
+    font-family: "Kanit";
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 .error {
-    color: red;
+    color: rgb(255, 0, 0);
+}
+
+.inputCamp {
+    display: flex;
+    border-bottom: 3px solid red;
+    width: 83%;
+    gap: 9px;
+}
+
+.icon {
+    font-size: 27px;
+}
+
+.inputField {
+    width: 100%;
+    border: none;
+    font-size: 15px;
+    background-color: #f1f1f1;
+}
+
+.label {
+    padding-left: 8px;
+}
+
+.inputField:focus {
+    outline: none;
+}
+
+.inputSubmit {
+    width: 81px;
+    height: 77px;
+    border-radius: 30px;
+    cursor: pointer;
+    border: 1px solid #d2d2d2;
+}
+
+.inputSubmit:hover {
+    background-color: #f1f1f1;
+}
+
+.form a {
+    text-decoration: none;
+    color: black;
+}
+
+.arrow {
+    font-size: 36px;
 }
