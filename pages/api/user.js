@@ -14,9 +14,9 @@ export default async function handler(req, res) {
         const { email } = jwt.verify(token, process.env.SECRET);
         const user = await mongoClient.db('test').collection('users').findOne({email});
         
-        if(!user.picture || !user.username) return res.json({id: user._id});
+        //if(!user.picture || !user.username) return res.json({id: user._id});
         
-        res.json({'name': user.username, 'id': user._id, 'picture': user.picture});
+        res.json({ name: user.username, id: user._id, picture: user.picture });
 
     } else if(id && !token){
 

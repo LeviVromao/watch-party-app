@@ -76,7 +76,6 @@ export default function Talk({ user, id, picture }) {
     }
 
         
-
     return (
         <>
             <Head>

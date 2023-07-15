@@ -4,7 +4,7 @@ import { ObjectId } from "mongodb";
 export default async function handler(req, res) {
 
     const { image, id, name } = req.body;
-
+    console.log(name)
     if( req.method === 'POST' ) {
 
         const _id = new ObjectId(`${id}`);
@@ -31,8 +31,7 @@ export default async function handler(req, res) {
                 {_id: user._id},
                 {$set: user}
             )
-
-
+            
         } else if( image && !name && user ) {
 
             user.picture = image;
@@ -45,7 +44,6 @@ export default async function handler(req, res) {
     } else {
 
         res.status(405).json({ Error: "Method not allowed" });
-    
     }
     
 }

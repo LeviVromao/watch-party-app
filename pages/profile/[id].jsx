@@ -4,7 +4,9 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "@/styles/Profile.module.css"
-import  Router  from "next/router";
+import Router  from "next/router";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useState } from "react";
 
 export default function ProfileIDS( { id, name, picture } ){
@@ -12,43 +14,68 @@ export default function ProfileIDS( { id, name, picture } ){
     const [image, setImage] = useState();
     const [error, setError] = useState("");
 
-    const handleSave = async event =>{
-        event.preventDefault();
-        const res = confirm("Deseja salvar as alteraçôes feitas até agora?")
-        if( res ) {
-            if( image && !newName ) {
+    const handleSave = async e =>{
+        e.preventDefault()
+        confirmAlert({
+            title: 'Confirmação',
+            message: 'Deseja salvar as alterações feitas até agora?',
+            buttons: [
+                {
+                    label: 'Sim',
+                    onClick: async () => {
+                        if( image && !newName ) {
 
-                await api.post('/api/updateUser', {
-                    image, 
-                    id
-                })
-    
-            } else if( newName && !image ) {
-                await api.post("/api/updateUser", {
-                    name: newName,
-                    id
-                })
+                            await api.post('/api/updateUser', {
+                                image, 
+                                id
+                            })
             
-            } else if( newName && image ){
-                await api.post("/api/updateUser", {
-                    name: newName,
-                    image,
-                    id
-                })
+                        } else if( newName && !image ) {
+                            console.log(newName);
+                            await api.post("/api/updateUser", {
+                                name: newName,
+                                id
+                            })
             
-            } else {
-                setError("Precisa editar algum campo para continuar, ou cancele se desejar.")
-            }
-    
-            setNewName("")
-            setImage("");
-        }
+                        } else if( newName && image ){
+                            await api.post("/api/updateUser", {
+                                name: newName,
+                                image,
+                                id
+                            })
+                
+                        } else {
+                            setError("Precisa editar algum campo para continuar, ou cancele se desejar.")
+                        }
+                        setNewName("")
+                        setImage("");
+                    }
+                },
+                {
+                    label: 'Não'
+                }
+            ]
+        })
     }
 
     const handleCancel = (e) => {
         e.preventDefault();
         const res = confirm("Deseja cancelar as alteraçôes feitas até agora?");
-        
+        confirmAlert({
+            title: 'Confirmação',
+            message: 'Deseja cancelar as alterações feitas até agora?',
+            buttons: [
+                {
+                    label: 'Sim',
+                    onClick: () => {
+                        Router.push('/home')
+                    }
+                },
+                {
+                    label: 'Não'
+                }
+            ]
+        })
         if( res ) {
             Router.push('/home');
             return
@@ -129,14 +156,14 @@ export default function ProfileIDS( { id, name, picture } ){
                         {error? <i className={styles.error}>{error}</i> : <i></i>}
                        <div className={styles.buttons}>
                             <button
-                                type="submit"
+                                type="button"
                                 className={styles.buttonSave}
                                 onClick={handleSave}
                             >
                                 Save
                             </button>
                             <button
-                                type="click"
+                                type="button"
                                 onClick={handleCancel}
                                 className={styles.buttonCancel}
                             >

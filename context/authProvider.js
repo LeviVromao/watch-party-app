@@ -1,7 +1,6 @@
-import { createContext, useEffect, useState } from "react";
-import { parseCookies, setCookie } from "nookies";
+import { createContext, useState } from "react";
+import { setCookie } from "nookies";
 import { api } from "@/services/api";
-import jwt from 'jsonwebtoken';
 import  Router  from "next/router";
 
 export const authContext = createContext();
@@ -56,7 +55,7 @@ export function AuthProvider( {children} ){
 
             setUser(user.email);
             api.defaults.headers.Authorization = `Bearer ${token}`;
-            Router.push("/home");
+            Router.push("/");
         }
 
     }

@@ -22,9 +22,9 @@ export default function handler(req, res) {
 
             if(isYoutubeURL) {
 
-                const videoId = video.match(/v=([^&]+)/)[1];
+                const videoId = video.match(/(?:\/|%3D|v=|vi=|\/v\/|youtu\.be\/|\/embed\/|\/shorts\/)([0-9A-Za-z_-]{11})(?:[%#?&]|$)/)[1];
                 try {
-                    console.log('Video ID', videoId);
+                    
                     pusher.trigger(room, 'videos', {
                         video: videoId
                     }, () => res.status(200).end('sent event successfully'));
