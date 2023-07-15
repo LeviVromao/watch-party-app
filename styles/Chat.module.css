@@ -122,7 +122,7 @@
     .videoContainer {
         margin: 0 auto;
         max-width: 751px;
-        height: 383px;
+        height: 276px;
     }
 
     .videoFake {
@@ -150,41 +150,3 @@
         margin: 0 auto;
     }
 }
-
-/** 
-mudar o form do header depois {
-    tirar o width
-}
-
-
-.main {
-    flex-direction: column;
-}
-
-.videoContainer {
-    padding: 8px;
-}
-
-.videoFake {
-    height: 259px;
-    max-width: 758px
-}
-
-.advice {
-    font-size: 24px;
-    text-align: center;
-}
-
-.chat {
-    height: 49%;
-    margin: 0 auto;
-    max-width: 758px;
-    width: 89%;
-}
-
-.form {
-    max-width: 450px;
-    margin: 0 auto;
-}
-
-**/
