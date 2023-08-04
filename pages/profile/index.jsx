@@ -8,8 +8,9 @@ import Router  from "next/router";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useState } from "react";
+import { parseCookies } from "nookies";
 
-export default function ProfileIDS( { id, name, picture } ){
+export default function ProfileIDS( { id, name, picture, message } ){
     const [newName, setNewName] = useState("");
     const [image, setImage] = useState();
     const [error, setError] = useState("");
@@ -31,7 +32,6 @@ export default function ProfileIDS( { id, name, picture } ){
                             })
             
                         } else if( newName && !image ) {
-                            console.log(newName);
                             await api.post("/api/updateUser", {
                                 name: newName,
                                 id
@@ -92,6 +92,9 @@ export default function ProfileIDS( { id, name, picture } ){
                 <link rel="icon" href="https://th.bing.com/th/id/OIG.DKYsTD6pJtVIu0.XWPy6?pid=ImgGn" />
             </Head> 
             <Header noProfile/>
+            {message? 
+                <h1 className={styles.noID}>{message}</h1>
+            :
             <main className={styles.main} >
                 <form 
                     className={styles.form}
@@ -134,7 +137,7 @@ export default function ProfileIDS( { id, name, picture } ){
                                 className={styles.inputName}
                                 onChange={e => setImage(e.target.value)}
                                 id="chooseIMG"
-                                placeholder="https://imagem.com/jpeg"
+                                placeholder="An image "
                             />
                         </div>
                         <div>
@@ -173,35 +176,44 @@ export default function ProfileIDS( { id, name, picture } ){
                     </div>
                 </form>
             </main>
+            }
         </>
     )
 }
 
-export const getStaticPaths = async () => {
-    const { data } = await api.get( "/api/paths" );
 
-    const paths = data.ids.map(id => {
-        return {params: { id } }
+export async function getServerSideProps(ctx) {
+    const {"auth.token": token} = parseCookies(ctx);
+    const id = ctx.query.id
+
+    if(!token) {
+        return {
+            redirect: {
+                destination: "/",
+                permanent: false,
+            }
+        }
+    }
+
+    if(!id) {
+        return {
+            props: {
+                message: 'Você precisa do ID para resgatar seu perfil :)'
+            }
+        }
+    }
+
+    const { data } = await api.post('/api/user', {
+        id
     })
 
-    return {
-        paths,
-        fallback: false
-    }
-}
-
-export const getStaticProps = async ( {params} ) => {
-    const { id: _id } = params;
-
-    const { data } = await api.post(`/api/user`, {id: _id});
-    const {id, name = '', picture = ''} = data;
-    
+    const { name = '', picture = '', id: _id = '' } = data;
 
     return {
         props: {
-            id, 
-            ...(name && {name}), 
-            ...(picture && {picture})
+            name, 
+            picture,
+            id
         }
     }
 }

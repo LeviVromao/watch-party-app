@@ -20,7 +20,7 @@ export default async function handler(req, res) {
         if(err) return res.json( { error: err } );
 
         if(isValid && user) {
-
+          
           const token = jwt.sign(
 
             {id: user._id, email: user.email}, 
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
 
         } 
 
-          res.json({ error: "*Senha não cadastrada.*" });
+          res.json({ error: "*Senha ou/email não cadastrados.*" });
 
       });
 

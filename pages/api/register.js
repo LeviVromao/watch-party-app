@@ -45,15 +45,14 @@ export default async function handler(req, res) {
                 );
 
             } else {
-
                 res.status(500).json(
                     { error: 'Erro ao criar o usuário' }
-                );
-
+                    );
+                    
+                throw new Error('Erro ao criar usuario')
             }
 
         } catch (error) {
-
             res.status(500).json( { error: 'Server error' } );
 
         }             

@@ -1,28 +1,27 @@
+.Login_Container {
+    background: #161d29;
+}
 .main {
     width: 100vw;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url('https://wallpaperaccess.com/full/2063938.png');
-    background-position: bottom;
-    background-size: cover;
+    background: url(/chatBallon.svg);
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .form {
-    height: 412px;
-    padding-top: 82px;
-    border-radius: 10px;
-    width: 57%;
-    min-width: 330px;
-    max-width: 416px;
-    border: 1px solid #f1f1f1;
-    background-color: #f1f1f1;
-    font-family: "Kanit";
+    width: 77%;
+    height: 3.56em;
     display: flex;
+    max-width: 31.23em;
     flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
+    justify-content: space-evenly;
+    gap: 1.4rem;
+    font-family: 'Kanit', sans-serif;
 }
 
 .error {
@@ -30,10 +29,10 @@
 }
 
 .inputCamp {
+    width: 69%;
     display: flex;
-    border-bottom: 3px solid red;
-    width: 83%;
-    gap: 9px;
+    flex-direction: column;
+    align-items: center;
 }
 
 .icon {
@@ -43,8 +42,10 @@
 .inputField {
     width: 100%;
     border: none;
+    height: 51px;
+    border-radius: 7px;
+    padding-left: 13px;
     font-size: 15px;
-    background: #f1f1f1;
 }
 
 .label {
@@ -56,18 +57,33 @@
 }
 
 .inputSubmit {
-    width: 81px;
-    height: 77px;
-    border-radius: 30px;
+    width: 100%;
+    border-radius: 8px;
+    background: #48BB9C;
+    border: 1px solid #48BB9C;
+    height: 51px;
     cursor: pointer;
-    border: 1px solid #d2d2d2;
 }
 
 .form a {
     text-decoration: none;
-    color: black;
+    color: #66878E;
 }
 
 .arrow {
     font-size: 36px;
+}
+
+@media (max-width: 700px) {
+    .form {
+        gap: 0.4rem;
+    }
+
+    .inputField {
+        height: 43px;
+    }
+
+    .inputSubmit {
+        height: 37px;
+    }
 }

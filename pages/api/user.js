@@ -23,7 +23,6 @@ export default async function handler(req, res) {
         const objectId = new ObjectId(`${id}`);
         const { mongoClient } = await connectToMongoDB();
         const user = await mongoClient.db('test').collection('users').findOne({_id: objectId});
-
         if(!user.picture || !user.username) return res.json({id: user._id});
 
         res.json({name: user.username, id: user._id, picture: user.picture});

@@ -67,7 +67,7 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
                 { noProfile? 
                     ""
                 : img? 
-                    <Link href={`/profile/${id}`}>
+                    <Link href={`/profile?id=${id}`}>
                         <Image 
                             src={img} 
                             alt={`A photo by ${user}`} 
@@ -77,7 +77,7 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
                         />                          
                     </Link>
                 : 
-                    <Link href={`/profile/${id}`}>
+                    <Link href={`/profile?id=${id}`}>
                         <FaUserCircle className={styles.defaultProfile}/>
                     </Link>
                 }
