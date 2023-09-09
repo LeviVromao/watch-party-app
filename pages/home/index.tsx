@@ -1,9 +1,10 @@
-import { getApiClient } from "@/services/apiClient";
+import { getApiClient } from "../../services/apiClient";
 import { parseCookies } from "nookies";
 import Head from "next/head";
-import styles from "@/styles/Home.module.css";
-import Header from "@/components/header";
+import styles from "../../styles/Home.module.css";
+import Header from "../../components/header";
 import { AiOutlineArrowUp } from "react-icons/ai"
+import React from "react";
 
 export default function Home( { id, name, picture } ) {
     return (
@@ -16,7 +17,7 @@ export default function Home( { id, name, picture } ) {
                 <link rel="icon" href="https://th.bing.com/th/id/OIG.DKYsTD6pJtVIu0.XWPy6?pid=ImgGn" />
             </Head> 
             <div className={`container`}>
-                <Header id={id} img={picture} user={name}/>
+                <Header id={id} img={picture} user={name} inputVideo={undefined} noProfile={undefined}/>
                 <main className={styles.main}>
                     {name? 
                         <div className={styles.saudation}>

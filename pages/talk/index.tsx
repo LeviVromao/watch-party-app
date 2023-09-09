@@ -1,13 +1,14 @@
-import { getApiClient } from "@/services/apiClient"
+import { getApiClient } from "../../services/apiClient"
 import { parseCookies } from "nookies";
-import Header from "@/components/header";
+import Header from "../../components/header";
 import Head from "next/head";
-import styles from "@/styles/Chat.module.css";
+import styles from "../../styles/Chat.module.css";
 import { IoSendSharp } from "react-icons/io5"
 import { useEffect, useState } from "react";
 import Pusher from "pusher-js";
 import Image from "next/image";
-import { api } from "@/services/api";
+import { api } from "../../services/api";
+import React from 'react'
 
 export default function Talk({ user, id, picture }) {
     const [video, setVideo ] = useState("");
@@ -48,11 +49,15 @@ export default function Talk({ user, id, picture }) {
           
     }, [room])
 
+    const inviteAnFriend = () => {
+        alert('Funcao vai ser construida no dia 10/09/2023 haha ')
+    }
+
     const handleAdvice = () => {
         const logoImage = document.querySelector(`.${styles.logo}`);
         logoImage.classList.toggle(styles.logoOut);
         const advice = document.querySelector(`.${styles.advice}`);
-        advice.classList.toggle(styles.appearAdvice)
+        advice.classList.toggle(styles.appear_advice)
     }
 
     const handleSubmit = async e => {
@@ -88,7 +93,7 @@ export default function Talk({ user, id, picture }) {
 
             {error? alert(error) : ""}
 
-            <Header id={id} inputVideo={true} img={picture} user={user}/>
+            <Header id={id} inputVideo={true} img={picture} user={user} noProfile={undefined}/>
 
             <main className={styles.main}>
                 <div className={styles.videoContainer}>
@@ -123,11 +128,12 @@ export default function Talk({ user, id, picture }) {
                     </div>   
                 }
                 </div>
+                {/* <div>
+                    POPUP
+                </div> */}
                 <div className={styles.chat}>
-                    <div className={styles.chatHeader}>
-                        <h1 className={styles.chatTitle}>
-                            CHAT DA TRANSMISSÃO
-                        </h1>
+                    <div className={styles.chat_header}>
+                        <input type="button" onClick={inviteAnFriend} className={styles.invite_button} value="Convidar amigos" />
                     </div>
                     
                     <div className={styles.messagesContainer}>

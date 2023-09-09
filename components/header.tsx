@@ -2,9 +2,10 @@ import styles from "./Header.module.css";
 import Link from "next/link";
 import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import { api } from "@/services/api";
+import { api } from "../services/api";
 import { parseCookies } from "nookies";
 import Image from "next/image";
+import React from "react";
 
 export default function Header( { id, inputVideo, noProfile, img, user } ) {
     const [video, setVideo] = useState("");

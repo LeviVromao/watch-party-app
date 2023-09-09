@@ -1,4 +1,4 @@
-import { connectToMongoDB } from "@/lib/mongoDb";
+import { connectToMongoDB } from "../../lib/mongoDb";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import {config} from "dotenv";
@@ -6,7 +6,7 @@ config();
 
 export default async function handler(req, res) {
   if(req.method === 'POST') {
-    const { email, password } = req.body;
+    const { email , password } = req.body;
 
     try {
 

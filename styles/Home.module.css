@@ -31,10 +31,16 @@
     border-radius: 6px;
     font-family: "Kanit";
     font-weight: 600;
+    cursor: pointer;
 }
 
 .select:focus {
     outline: none;
+}
+
+.select:hover {
+    background: #000;
+    color: #fff;
 }
 
 .submit {
@@ -47,4 +53,10 @@
     font-family: "Kanit";
     font-weight: 300;
     font-size: 16px;
+}
+
+.submit:hover {
+    background: black;
+    color: white;
+    border: none;
 }

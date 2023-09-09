@@ -1,18 +1,19 @@
-import Header from "@/components/header";
-import { api } from "@/services/api";
+import Header from "../../components/header";
+import { api } from "../../services/api";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "@/styles/Profile.module.css"
+import styles from "../../styles/Profile.module.css"
 import Router  from "next/router";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useState } from "react";
 import { parseCookies } from "nookies";
+import React from "react";
 
 export default function ProfileIDS( { id, name, picture, message } ){
     const [newName, setNewName] = useState("");
-    const [image, setImage] = useState();
+    const [image, setImage] = useState('');
     const [error, setError] = useState("");
 
     const handleSave = async e =>{
@@ -48,7 +49,7 @@ export default function ProfileIDS( { id, name, picture, message } ){
                             setError("Precisa editar algum campo para continuar, ou cancele se desejar.")
                         }
                         setNewName("")
-                        setImage("");
+                        setImage(null);
                     }
                 },
                 {
@@ -91,89 +92,69 @@ export default function ProfileIDS( { id, name, picture, message } ){
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="https://th.bing.com/th/id/OIG.DKYsTD6pJtVIu0.XWPy6?pid=ImgGn" />
             </Head> 
-            <Header noProfile/>
+            <Header noProfile id={undefined} inputVideo={undefined} img={undefined} user={undefined}/>
             {message? 
                 <h1 className={styles.noID}>{message}</h1>
             :
             <main className={styles.main} >
                 <form 
                     className={styles.form}
-                >
-                    {picture? 
-                        <Image 
-                            src={`${picture}`}
-                            alt={`A photo by ${name}`} 
-                            width={200} 
-                            height={200}
-                            className={styles.img}
-                        />
-                    : 
-                        <Image 
-                            src={`https://th.bing.com/th?id=OIP.d9W3MDj5NqeMkDMOMyigCQHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2`}
-                            alt={`A photo by ${name}`} 
-                            width={200} 
-                            height={200}
-                            className={styles.img}
-                        />
-                    }
-                    <div className={styles.nameBox} >
-                       
-                        <div>
-                            <p className={styles.HINT}>
-                                Só é aceito imagens de <Link href="https://pngimg.com/" target="_blank">PIN IMG </Link>, <Link href="https://www.bing.com/" target="_blank">BING</Link> e <Link href="https://www.tumblr.com/explore?language=pt_BR" target="_blank">MEDIA TUMBLR</Link>
-                            </p>
-                            <p className={styles.HINT}>
-                               Recomendo BING Clique em copiar link de imagem
-                            </p>
-                            <label 
-                                htmlFor="chooseIMG"
-                                className={styles.label}
-                            >
-                                    Photo
-                                </label>
-                            <input 
-                                type="text" 
-                                value={image}
-                                className={styles.inputName}
-                                onChange={e => setImage(e.target.value)}
-                                id="chooseIMG"
-                                placeholder="An image "
+                    >
+                    <h1 className={styles.title}>EDIT PROFILE</h1>
+                        <div className={styles.container_inputs}>
+                            {picture? 
+                            <Image 
+                                src={`${picture}`}
+                                alt={`A photo by ${name}`} 
+                                width={200} 
+                                height={200}
+                                className={styles.img}
                             />
-                        </div>
-                        <div>
-                            <label 
-                                htmlFor="name" 
-                                className={styles.label}
-                            >
-                                Name
-                            </label>
-                            <input 
-                                type="text" 
-                                className={styles.inputName}
-                                value={newName}
-                                onChange={e => setNewName(e.target.value)}
-                                placeholder="Jack"
-                                id="name"
+                            : 
+                            <Image 
+                                src={`https://th.bing.com/th?id=OIP.d9W3MDj5NqeMkDMOMyigCQHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2`}
+                                alt={`A photo by ${name}`} 
+                                width={200} 
+                                height={200}
+                                className={styles.img}
                             />
+                            }
+                            <div className={styles.name_box} >
+                                <input 
+                                    type="text" 
+                                    value={image}
+                                    className={styles.input_name}
+                                    onChange={e => setImage(e.target.value)}
+                                    id="chooseIMG"
+                                    placeholder="Escolha uma imagem."
+                                />
+                                <input 
+                                    type="text" 
+                                    className={styles.input_name}
+                                    value={newName}
+                                    onChange={e => setNewName(e.target.value)}
+                                    placeholder="Troque de nome."
+                                    id="name"
+                                />                           
+                            </div>
                         </div>
                         {error? <i className={styles.error}>{error}</i> : <i></i>}
                        <div className={styles.buttons}>
                             <button
                                 type="button"
-                                className={styles.buttonSave}
+                                className={styles.button_actions}
                                 onClick={handleSave}
                             >
-                                Save
+                                S A V E
                             </button>
                             <button
                                 type="button"
                                 onClick={handleCancel}
-                                className={styles.buttonCancel}
+                                className={styles.button_actions}
                             >
-                                Cancel
+                                C A N C E L
                             </button>
                        </div>
-                    </div>
                 </form>
             </main>
             }

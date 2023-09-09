@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import { setCookie } from "nookies";
-import { api } from "@/services/api";
+import { api } from "../services/api";
 import  Router  from "next/router";
 
 export const authContext = createContext();

@@ -2,11 +2,10 @@ import Head from "next/head";
 import { useState } from "react";
 import { useContext } from "react";
 import Link from "next/link";
-import { authContext } from "@/context/authProvider";
-import styles from '@/styles/Register.module.css';
+import { authContext } from "../..//context/authProvider";
+import styles from '../../styles/Register.module.css';
 import { AiOutlineArrowRight } from 'react-icons/ai'
-import { MdEmail } from "react-icons/md";
-import { RiLockPasswordFill } from "react-icons/ri";
+import React from "react";
 
 export default function Register() {
 

@@ -23,6 +23,16 @@
     cursor: pointer;
 }
 
+.invite_button {
+    background: #FF8811;
+    border: 1px solid white;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 15px;
+    padding: 10px;
+    cursor: pointer;
+}
+
 .logo {
     width: 79px;
 }
@@ -36,7 +46,7 @@
     display: none;
 }
 
-.appearAdvice {
+.appear_advice {
     display: block;
 }
 
@@ -49,9 +59,8 @@
     margin: 10px;
 }
 
-.chatHeader {
+.chat_header {
     border-bottom: 1px solid black;
-    height: 36px;
     padding: 8px;
 }
 
