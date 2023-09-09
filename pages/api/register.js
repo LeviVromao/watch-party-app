@@ -1,4 +1,4 @@
-import { connectToMongoDB } from '@/lib/mongoDb';
+import { connectToMongoDB } from '../../lib/mongoDb';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';

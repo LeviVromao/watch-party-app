@@ -1,4 +1,4 @@
-import { connectToMongoDB } from "@/lib/mongoDb";
+import { connectToMongoDB } from "../../lib/mongoDb";
 
 export default async function handler(req, res) {
 
