@@ -3,11 +3,14 @@ import { parseCookies } from "nookies";
 import Header from "../../components/header";
 import Head from "next/head";
 import styles from "../../styles/Chat.module.css";
-import { IoSendSharp } from "react-icons/io5"
+import data from '@emoji-mart/data'
+import Picker  from "@emoji-mart/react";
 import { useEffect, useState } from "react";
 import Pusher from "pusher-js";
 import Image from "next/image";
 import { api } from "../../services/api";
+import { IEmoji } from "../../services/Interface";
+import {BiCopy} from 'react-icons/Bi'
 import React from 'react'
 
 export default function Talk({ user, id, picture }) {
@@ -16,6 +19,15 @@ export default function Talk({ user, id, picture }) {
     const [sendMessage, setSendMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const [room, setRoom] = useState("");
+    const [invite, setInvite] = useState('')
+
+    useEffect(()=> {
+        const pop_up = document.querySelector(`.${styles.pop_up}`) as HTMLElement
+
+        document.addEventListener('click', () => {
+            pop_up.style.display = 'none'
+        })
+    }, [invite])
     
     useEffect(() => {
         const pusher = new Pusher('91b3f8b373b617f82771', {
@@ -49,8 +61,37 @@ export default function Talk({ user, id, picture }) {
           
     }, [room])
 
+    const appearEmoji = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const emoji_card = document.querySelector(`.${styles.emoji_card}`) as HTMLElement
+        e.stopPropagation()
+
+        if(emoji_card.style.display === 'block') {
+            emoji_card.style.display = 'none'
+        } else {
+            emoji_card.style.display = 'block'
+        }
+
+    }
+
+    const handleMessages = (e) => {
+        setSendMessage(e.target.value)
+    }
+
+    const handleEmojiSelection = (emoji: IEmoji) => {
+        setSendMessage((prevMessage) => prevMessage + emoji.native)
+    }
+
+
     const inviteAnFriend = () => {
-        alert('Funcao vai ser construida no dia 10/09/2023 haha ')
+        const pop_up = document.querySelector(`.${styles.pop_up}`) as HTMLElement
+        const popup_href = document.querySelector(`.${styles.popup_href}`) as HTMLInputElement
+        alert('no dia 10/09/2023 eu arrumo isso. ')
+
+        if(!pop_up.style.display) {
+            pop_up.style.display = 'flex'
+            popup_href.value = window.location.href
+            setInvite(popup_href.value)
+        } 
     }
 
     const handleAdvice = () => {
@@ -60,8 +101,8 @@ export default function Talk({ user, id, picture }) {
         advice.classList.toggle(styles.appear_advice)
     }
 
-    const handleSubmit = async e => {
-        e.preventDefault();
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=> {
+        e.preventDefault()
         const {"auth.token": token} = parseCookies();
         const room = new URLSearchParams(window.location.search).get("room");
         
@@ -77,7 +118,7 @@ export default function Talk({ user, id, picture }) {
             })
         }
         
-        setSendMessage("");
+        setSendMessage('');
     }
 
         
@@ -96,6 +137,27 @@ export default function Talk({ user, id, picture }) {
             <Header id={id} inputVideo={true} img={picture} user={user} noProfile={undefined}/>
 
             <main className={styles.main}>
+                <div className={styles.pop_up}>
+                    <div className={styles.popup_content}>
+                        <h1 className={styles.popup_text}>
+                            Convide amigos e assista vídeos juntos!
+                        </h1>
+                        <div className={styles.popup_content_container}>
+                            <i className={styles.popup_msg}>Copie e compartilhe esse link:</i>
+                            <div className={styles.popup_link}>
+                                <input 
+                                    type="text" 
+                                    className={styles.popup_href} 
+                                    readOnly={true}
+                                    value=""/>
+                                <button className={styles.popup_button}>
+                                    Copiar
+                                    <BiCopy className={styles.popup_icon}/>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div className={styles.videoContainer}>
                 {video? 
                     <iframe 
@@ -128,9 +190,6 @@ export default function Talk({ user, id, picture }) {
                     </div>   
                 }
                 </div>
-                {/* <div>
-                    POPUP
-                </div> */}
                 <div className={styles.chat}>
                     <div className={styles.chat_header}>
                         <input type="button" onClick={inviteAnFriend} className={styles.invite_button} value="Convidar amigos" />
@@ -141,7 +200,7 @@ export default function Talk({ user, id, picture }) {
                             messages.map((msg, index) => (
                                 <div 
                                     key={index} 
-                                    className={styles.messageBox}
+                                    className={styles.message_box}
                                  >
                                 <p className={styles.user}>
                                     {user || msg.name? (msg.name !== user ? `${msg.name}`: `${user}`) : user = 'TROQUE_DE_NOME'}
@@ -156,20 +215,22 @@ export default function Talk({ user, id, picture }) {
                         
                     </div>
 
-                    <div className={styles.inputContainer}>
+                    <div className={styles.form_container}>
                         <form className={styles.form} onSubmit={handleSubmit}>
-                            <input 
-                                type="text" 
-                                className={styles.chatInput}
-                                value={ sendMessage }
-                                onChange={e => setSendMessage(e.target.value)}
-                            />
-                            <button 
-                                type="submit"
-                                className={styles.submit}
-                            >
-                                <IoSendSharp />
-                            </button>
+                           <div className={styles.input_container}>
+                                <input 
+                                    type="text" 
+                                    className={styles.chat_input}
+                                    value={ sendMessage }
+                                    onChange={handleMessages}
+                                />
+                                <button type="button" className={styles.emoji_button} onClick={appearEmoji}>
+                                    😎
+                                </button>
+                                <div className={styles.emoji_card}>
+                                    <Picker data={data} onEmojiSelect={handleEmojiSelection}/>
+                                </div>    
+                            </div>
                         </form>
                     </div>
                 </div>

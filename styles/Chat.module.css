@@ -3,6 +3,95 @@
     display: flex;
 }
 
+.disapear_popup {
+    display: flex;
+}
+
+.pop_up {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000; 
+    justify-content: center;
+    padding-top: 21px;
+}
+
+.popup_content {
+    color: #333;
+    background: #fff;
+    max-width: 513px;
+    max-height: 193px;
+    padding-top: 13px;
+    margin: 0 auto;
+    border-radius: 4px;
+    height: 190px;
+    width: 30%;
+}
+
+.popup_content_container {
+    display: flex;
+    flex-direction: column;
+    height: 64%;
+    justify-content: center;
+    padding: 0 13px 0 13px;
+    gap: 11px;
+}
+
+.popup_msg {
+    font-size: 15.1px;
+    font-family: Lato,Helvetica Neue,Arial,Helvetica,sans-serif;
+}
+
+.popup_link {
+    display: flex;
+    align-items: center;
+    border-radius: 3px;
+    height: 35%;
+}
+
+.popup_text {
+    font-size: 21px;
+    font-family: Lato,Helvetica Neue,Arial,Helvetica,sans-serif;
+    border-bottom: 1px solid #FF8811;
+    padding: 0 0 10px 13px;
+}
+
+.popup_href {
+    font-size: 15px;
+    font-family: Lato,Helvetica Neue,Arial,Helvetica,sans-serif;
+    width: 83%;
+    height: 100%;
+    border: 1px solid #FF8811;
+    border-radius: 3px 0 0 3px;
+    padding: 10px;
+}
+
+.popup_button {
+    font-size: 17px;
+    background: #FF8811;
+    position: relative;
+    border: none;
+    font-family: Lato,Helvetica Neue,Arial,Helvetica,sans-serif;
+    height: 100%;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.popup_icon {
+    width: 46%;
+    height: 100%;
+    background: #D46E00;
+    position: absolute;
+    top: 0;
+    left: auto;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
 .videoContainer {
     width: 100%;
     padding: 10px;
@@ -33,6 +122,10 @@
     cursor: pointer;
 }
 
+.invite_button:hover {
+    background: #D46E00;
+}
+
 .logo {
     width: 79px;
 }
@@ -54,9 +147,9 @@
     display: grid;
     grid-template-rows: max-content 1fr max-content;
     max-width: 350px;
-    min-width: 350px;
     border: 1px solid black;
     margin: 10px;
+    width: 28%;
 }
 
 .chat_header {
@@ -76,38 +169,59 @@
     overflow-y: scroll;
 }
 
-.messageBox {
+.message_box {
     margin-bottom: 12px;
     display: flex;
     gap: 4px;
     flex-wrap: wrap;
     word-break: break-all;
+    align-items: center;
 }
 
 .message {
     font-size: 15px;
 }
 
-.inputContainer {
+.form_container {
     padding: 10px;
 }
 
-
-.form {
+.input_container {
     display: flex;
     align-items: center;
+    justify-content: center;
+    border-radius: 8px;
     border: 1px solid black;
+    position: relative;
 }
 
-.chatInput {
+.chat_input {
     border: none;
-    width: 80%;
-    height: 43px;
+    width: 90%;
+    height: 35px;
     padding-left: 11px;
 }
 
-.chatInput:focus {
+.chat_input:focus {
     outline: none;
+}
+
+.emoji_button {
+    border: none;
+    border-radius: 50%;
+    background: #333;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+}
+
+.emoji_card {
+    position: absolute;
+    bottom: 115%;
+    right: 0%;
+    border: 1px solid black;
+    display: none;
+    transition: opacity 1s ease;
 }
 
 .user {
@@ -116,14 +230,14 @@
 }
 
 .submit {
-    width: 15%;
     height: 43px;
     border: none;
     cursor: pointer;
     font-size: 21px;
 }
 
-@media (max-width: 751px) {
+@media (max-width: 800px) {
+    
     .main {
         flex-direction: column;
     }
@@ -141,8 +255,8 @@
     .chat {
         height: 52%;
         max-width: 751px;
-        width: 96%;
         margin: 10px auto;
+        width: 95%;
     }
 
     .chatHeader {
@@ -157,5 +271,35 @@
     .form {
         max-width: 681px;
         margin: 0 auto;
+    }
+}
+
+@media(max-width: 430px) {
+    .popup_href {
+        width: 78%
+    }
+}
+
+@media(max-width: 350px) {
+    .popup_content {
+        width: 320px;
+    }
+
+    .popup_text {
+        font-size: 17px;
+    }
+
+    .chatIcon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .inputVideo {
+        width: 74%;
+    }
+
+    .profileImage {
+        width: 35px;
+        height: 36px;
     }
 }
