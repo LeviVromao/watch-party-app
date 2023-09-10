@@ -10,7 +10,7 @@ import Pusher from "pusher-js";
 import Image from "next/image";
 import { api } from "../../services/api";
 import { IEmoji } from "../../services/Interface";
-import {BiCopy} from 'react-icons/Bi'
+import { BiCopy } from 'react-icons/bi'
 import React from 'react'
 
 export default function Talk({ user, id, picture }) {
