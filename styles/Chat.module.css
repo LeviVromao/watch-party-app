@@ -5,6 +5,15 @@
 
 .disapear_popup {
     display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    padding-top: 21px;
 }
 
 .pop_up {
@@ -29,7 +38,6 @@
     margin: 0 auto;
     border-radius: 4px;
     height: 190px;
-    width: 30%;
 }
 
 .popup_content_container {
@@ -57,7 +65,7 @@
     font-size: 21px;
     font-family: Lato,Helvetica Neue,Arial,Helvetica,sans-serif;
     border-bottom: 1px solid #FF8811;
-    padding: 0 0 10px 13px;
+    padding: 0 13px 10px 13px;
 }
 
 .popup_href {
@@ -70,15 +78,25 @@
     padding: 10px;
 }
 
+.popup_href:focus {
+    border: 2px solid #FF8811;
+    outline: none;
+}
+
 .popup_button {
-    font-size: 17px;
+    font-size: 15px;
     background: #FF8811;
     position: relative;
     border: none;
     font-family: Lato,Helvetica Neue,Arial,Helvetica,sans-serif;
     height: 100%;
     cursor: pointer;
-    padding: 2px;
+    color: #fff;
+    padding: 0.2em;
+}
+
+.popup_button:hover {
+    background-color: #D46E00;
 }
 
 .popup_icon {
@@ -90,6 +108,7 @@
     left: auto;
     border-radius: 0 4px 4px 0;
     cursor: pointer;
+    color: #fff;
 }
 
 .videoContainer {
@@ -274,19 +293,27 @@
     }
 }
 
-@media(max-width: 430px) {
+
+@media(max-width: 456px) {
     .popup_href {
         width: 78%
     }
+    .popup_text {
+        font-size: 19px;
+    }
+
+    .popup_content {
+        width: 95%;
+    }
 }
 
-@media(max-width: 350px) {
+@media(max-width: 414px) {
     .popup_content {
         width: 320px;
     }
 
     .popup_text {
-        font-size: 17px;
+        font-size: 15px;
     }
 
     .chatIcon {

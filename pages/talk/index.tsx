@@ -19,15 +19,8 @@ export default function Talk({ user, id, picture }) {
     const [sendMessage, setSendMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const [room, setRoom] = useState("");
-    const [invite, setInvite] = useState('')
-
-    useEffect(()=> {
-        const pop_up = document.querySelector(`.${styles.pop_up}`) as HTMLElement
-
-        document.addEventListener('click', () => {
-            pop_up.style.display = 'none'
-        })
-    }, [invite])
+    const [popupVisible, setPopupVisible] = useState(false)
+    const [ invite, setInvite ] = useState('')
     
     useEffect(() => {
         const pusher = new Pusher('91b3f8b373b617f82771', {
@@ -55,9 +48,12 @@ export default function Talk({ user, id, picture }) {
               ]);
         })
 
+        const hrefValue = window.location.href
+        setInvite(hrefValue)
+
         return () => {
             pusher.unsubscribe(room);
-          };
+        };
           
     }, [room])
 
@@ -80,18 +76,45 @@ export default function Talk({ user, id, picture }) {
     const handleEmojiSelection = (emoji: IEmoji) => {
         setSendMessage((prevMessage) => prevMessage + emoji.native)
     }
-
-
-    const inviteAnFriend = () => {
+      
+    const openPopup = () => {
         const pop_up = document.querySelector(`.${styles.pop_up}`) as HTMLElement
-        const popup_href = document.querySelector(`.${styles.popup_href}`) as HTMLInputElement
-        alert('no dia 10/09/2023 eu arrumo isso. ')
 
-        if(!pop_up.style.display) {
-            pop_up.style.display = 'flex'
-            popup_href.value = window.location.href
-            setInvite(popup_href.value)
-        } 
+        pop_up.classList.remove(`${styles.pop_up}`);
+        pop_up.classList.add(`${styles.disapear_popup}`);
+        setTimeout(() => {
+            setPopupVisible(true)
+        }, 2000);
+            
+    }
+
+    useEffect(() => {
+
+            const popup_content = document.querySelector(`.${styles.popup_content}`)
+            const pop_up = document.querySelector(`.${styles.disapear_popup}`) as HTMLElement
+            
+            const handleDocumentClick = (e) => {
+                if(popupVisible && !popup_content.contains(e.target)) {
+                    pop_up.classList.remove(`${styles.disapear_popup}`)
+                    pop_up.classList.add(`${styles.pop_up}`)
+                    setPopupVisible(false)
+                }
+            };
+    
+            document.addEventListener('click', handleDocumentClick);
+        
+            return () => {
+              document.removeEventListener('click', handleDocumentClick);
+            };
+    
+    }, [popupVisible]);
+
+    const copyInvite = async () => {
+        try {
+            navigator.clipboard.writeText(invite)
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     const handleAdvice = () => {
@@ -149,8 +172,8 @@ export default function Talk({ user, id, picture }) {
                                     type="text" 
                                     className={styles.popup_href} 
                                     readOnly={true}
-                                    value=""/>
-                                <button className={styles.popup_button}>
+                                    value={invite}/>
+                                <button className={styles.popup_button} onClick={copyInvite}>
                                     Copiar
                                     <BiCopy className={styles.popup_icon}/>
                                 </button>
@@ -192,7 +215,7 @@ export default function Talk({ user, id, picture }) {
                 </div>
                 <div className={styles.chat}>
                     <div className={styles.chat_header}>
-                        <input type="button" onClick={inviteAnFriend} className={styles.invite_button} value="Convidar amigos" />
+                        <input type="button" onClick={openPopup} className={styles.invite_button} value="Convidar amigos" />
                     </div>
                     
                     <div className={styles.messagesContainer}>
@@ -203,7 +226,7 @@ export default function Talk({ user, id, picture }) {
                                     className={styles.message_box}
                                  >
                                 <p className={styles.user}>
-                                    {user || msg.name? (msg.name !== user ? `${msg.name}`: `${user}`) : user = 'TROQUE_DE_NOME'}
+                                    {user || msg.name? (msg.name !== user ? `${msg.name}`: `${user}`) : user = 'ESCOLHA_UM_NOME'}
                                 </p>
                                 <p className={styles.message}>
                                     {msg.message}
