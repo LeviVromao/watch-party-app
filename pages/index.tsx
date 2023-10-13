@@ -35,16 +35,16 @@ export default function Login() {
       <form onSubmit={handleLogin} className={styles.loginForm}>
         <div className={styles.inputsContainers}>
           <label htmlFor="email" className={styles.label}>Endereço de email</label>
-          <input type="email" className={styles.loginInput} id="email" onChange={e => setEmail(e.target.value)} />
+          <input type="email" className={styles.loginInput} id="email" onChange={e => setEmail(e.target.value)} required/>
         </div>
         <div className={styles.inputsContainers}>
           <label htmlFor="password" className={styles.label}>Senha</label>
-          <input type="password" className={styles.loginInput} id="password" onChange={e => setPassword(e.target.value)} />
+          <input type="password" className={styles.loginInput} id="password" onChange={e => setPassword(e.target.value)} required/>
         </div>
         <input type="submit" value="Entrar" className={styles.loginSubmit}/>
       </form>
       <div className={styles.newUser}>
-        <p className={styles.newUserParagraph}>Novo no Watch Part?</p>
+        <p className={styles.newUserParagraph}>Novo no Watch Party?</p>
         <Link href="/register" className={styles.link}>Criar uma conta</Link>
       </div>
     </div>

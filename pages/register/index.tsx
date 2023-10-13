@@ -35,11 +35,11 @@ export default function Register() {
             <form onSubmit={handleRegister} className={styles.signupForm}>
               <div>
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" onChange={e => setEmail(e.target.value)}/>
+                <input type="email" id="email" onChange={e => setEmail(e.target.value)} required/>
               </div>
               <div>
                 <label htmlFor="password">Senha</label>
-                <input type="password" id="password" onChange={e => setPass(e.target.value)} />
+                <input type="password" id="password" onChange={e => setPass(e.target.value)} required/>
               </div>
               <input type="submit" value="Enviar" />
             </form>

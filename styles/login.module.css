@@ -28,7 +28,7 @@
 
 .moonIcon:hover {
     background: #525964;
-    border: 2px solid #525964;
+    scale: 1.1;
 }
 
 .sunIcon {
@@ -40,7 +40,7 @@
 
 .sunIcon:hover {
     background: #525964;
-    border: 2px solid #525964;
+    scale: 1.1;
 }
 
 .chatBubble {
@@ -93,6 +93,7 @@
     height: 27px;
     border-radius: .25rem;
     color: white;
+    cursor: pointer;
 }
 
 .newUser {
