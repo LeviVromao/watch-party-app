@@ -42,13 +42,19 @@ export default function Register() {
                 <div className={styles.messageContainerWatchParty}>
                   <div className={styles.messageWatchParty}>
                     <p className={styles.messageHourWatchParty}>Watch Party - 19:30</p>
-                    <p className={styles.messageBubbleWatchParty}>Olá, bem vindo qual seu email?</p>
+                    <p className={styles.messageBubbleWatchParty}>Olá, bem vindo(a) qual seu email?</p>
                   </div>
                 </div>
                 <div className={styles.messageContainerYou}>
                   <div className={styles.messagesYou}>
                     <p className={styles.messageHour}>Você - 19:23</p>
-                    <p className={styles.messageBubbleYou}>Meu email é: levi13@hotmail.com</p>
+                    <p className={styles.messageBubbleYou}>Meu email é: levi@challenger.com</p>
+                  </div>
+                </div>
+                <div className={styles.messageContainerYou}>
+                  <div className={styles.messagesYou}>
+                    <p className={styles.messageHour}>Você - 19:24</p>
+                    <p className={styles.messageBubbleYou}>vou fazer a funcionalidade do chat depois man...</p>
                   </div>
                 </div>
               </div>
@@ -60,11 +66,11 @@ export default function Register() {
               </div>
               <div className={styles.signupInputsContainers}>
                 <div className={styles.LabelInputContainer}>
-                  <label className={styles.label} htmlFor="email">Insira seu email<span>*</span></label>
+                  <label className={styles.label} htmlFor="email">Insira seu email <span className={styles.starSpan}>*</span></label>
                   <input className={styles.signupInput} type="email" id="email" onChange={e => setEmail(e.target.value)} required/>
                 </div>
                 <div className={styles.LabelInputContainer}>
-                  <label className={styles.label} htmlFor="password">Criar uma senha<span>*</span></label>
+                  <label className={styles.label} htmlFor="password">Criar uma senha <span className={styles.starSpan}>*</span></label>
                   <input className={styles.signupInput} type="password" id="password" onChange={e => setPass(e.target.value)} required/>
                 </div>
                 <input className={styles.signupSubmit} type="submit" value="Enviar" />
