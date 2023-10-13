@@ -1,0 +1,127 @@
+.loginContainer {
+    align-items: center;
+    background: #011627;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding-top: 73px;
+}
+
+.bgColor {
+    position: absolute;
+    right: 7%;
+    top: 3%;
+    height: 30px;
+    width: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.moonIcon {
+    cursor: pointer;
+    height: 100%;
+    width: 50%;
+    padding: 2px;
+    color: white;
+}
+
+.moonIcon:hover {
+    background: #525964;
+    border: 2px solid #525964;
+}
+
+.sunIcon {
+    cursor: pointer;
+    height: 100%;
+    width: 50%;
+    padding: 2px;
+}
+
+.sunIcon:hover {
+    background: #525964;
+    border: 2px solid #525964;
+}
+
+.chatBubble {
+    font-size: 114px;
+    color: #8193b2;
+}
+
+.loginTitle {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    color: white;
+    display: block;
+    margin-bottom: 13px;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 2px solid #627597;
+    border-radius: 8px;
+    width: 281px;
+    height: 223px;
+    margin-bottom: 23px;
+}
+
+.inputsContainers {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 83%;
+}
+
+.label {
+    color: #8193b2;
+}
+
+.loginInput {
+    border-radius: .25rem;
+    height: 27px;
+    padding-left: 4px;
+}
+
+.loginSubmit {
+    background: #216e39;
+    border: 1px solid #216e39;
+    width: 83%;
+    height: 27px;
+    border-radius: .25rem;
+    color: white;
+}
+
+.newUser {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    border: 2px solid #627597;
+    width: 281px;
+    border-radius: 4px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.newUserParagraph {
+    color: #8193b2;
+    font-size: .875rem;
+    line-height: 1.25rem;
+}
+
+.link {
+    text-decoration: none;
+    color: #3b82f6;
+}
+
+@media (min-width: 400px) {
+    .loginForm {
+        height: 255px;
+    }
+    .loginForm, .newUser {
+        width: 340px;
+    }
+}
