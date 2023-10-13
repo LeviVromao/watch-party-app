@@ -44,7 +44,7 @@ export default function Login() {
         <input type="submit" value="Entrar" className={styles.loginSubmit}/>
       </form>
       <div className={styles.newUser}>
-        <p className={styles.newUserParagraph}>Novo no Watch Party?</p>
+        <p className={styles.newUserParagraph}>Novo(a) no Watch Party?</p>
         <Link href="/register" className={styles.link}>Criar uma conta</Link>
       </div>
     </div>

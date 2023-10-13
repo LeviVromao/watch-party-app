@@ -1,20 +1,115 @@
 .registerBody{
     height: 100vh;
+    background: #011627;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.chatContainer {
+    width: 50%;
 }
 
 .formContainer {
-    height: 67%;
-    max-width: 900px;
-    margin: 115px auto;
     display: flex;
+    height: 80vh;
+    width: 80%;
+    background: #0a0c10;
     padding: 13px;
-    border: 2px solid black;
-    border-radius: 7px;
+    box-shadow: 5px 5px 10px rgb(0, 0, .212);
 }
 
-.chatImage {
-    width: 478px;
-    height: auto;
+.chatHeader {
+    display: flex;
+    gap: 13px;
+    align-items: center;
+}
+
+.chatImg {
+    border-radius: 50%;
+    border: 1px solid #627597;
+    background-size: cover;
+    width: 58px;
+    height: 58px;
+}
+
+.chatStatus {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #00B37E;
+}
+
+.chatName {
+    color: white;
+    font-size: 18px;
+}
+
+.chatStatus::before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: #00B37E;
+    border-radius: 50%;
+}
+
+.chatHour {
+    text-align: center;
+    color: white;
+}
+
+.messagesContainer {
+    height: 86%;
+}
+
+.messagesContainer::-webkit-scrollbar {
+    width: 12px; 
+}
+
+.messagesContainer::-webkit-scroll-corner {
+    background:#011627;
+}
+
+.messageContainerYou {
+    width: 100%;
+}
+
+.messagesYou {
+    float: right;
+    color: white;
+}
+
+.messageHour {
+    text-align: end;
+}
+
+.messageBubbleYou {
+    display: block;
+    padding: 14px;
+    border-radius: 7px;
+    background: #07847E;
+}
+
+.messageContainerWatchParty {
+    color: white;
+    width: 100%;
+    float: left;
+}
+
+.messageWatchParty {
+    float: left;
+}
+
+.messageHourWatchParty {
+    text-align: start;
+}
+
+.messageBubbleWatchParty {
+    background: #633BBC;
+    padding: 14px;
+    border-radius: 7px;
 }
 
 .signupForm {
@@ -22,5 +117,98 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 106px;
+    padding-top: 58px;
+}
+
+.signupInputsContainers {
+    height: 39vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.signupSubtitle, .signupTitle {
+    color: #8193b2;
+}
+
+.LabelInputContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    color: #00cfc8;
+}
+
+.signupInput {
+    height: 37px;
+    border-radius: .25rem;
+    min-width: 230px;
+    max-width: 230px;
+}
+
+.signupSubmit {
+    background: #216e39;
+    border: 1px solid #216e39;
+    border-radius: 0.25rem;
+    height: 37px;
+    width: 66%;
+    cursor: pointer;
+    color: white;
+}
+
+.newUser {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 4px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.newUserParagraph {
+    color: #8193b2;
+    font-size: .875rem;
+    line-height: 1.25rem;
+}
+
+.link {
+    text-decoration: none;
+    color: #3b82f6;
+}
+
+@media (max-width: 800px) {
+    .chatContainer {
+        display: none;
+    }
+
+    .formContainer {
+        width: 93%;
+        height: 62vh;
+    }
+
+    .signupForm {
+        width: 100%;
+    }
+
+    .signupTitle {
+        font-size: 33px;
+    }
+}
+
+@media (max-width: 490px) {
+    .signupForm {
+        padding-top: 15px;
+    }
+    .signupTitle {
+        font-size: 23px;
+    }
+}
+
+@media (max-width: 390px) {
+    .signupTitle {
+        font-size: 17px;
+    }
 }
