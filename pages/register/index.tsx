@@ -77,7 +77,7 @@ export default function Register() {
               </div>
               <div className={styles.newUser}>
                 <p className={styles.newUserParagraph}>Antigo(a) no Watch Party?</p>
-                <Link href="/register" className={styles.link}>Entrar na sua conta</Link>
+                <Link href="/" className={styles.link}>Entrar na sua conta</Link>
               </div>
             </form>
         </div>
