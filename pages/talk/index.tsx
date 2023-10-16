@@ -46,6 +46,7 @@ export default function Talk({ user, id, picture }) {
                 ...prevMessages,
                 { message: data.message, name: data.name }
               ]);
+            setSendMessage('')
         })
 
         const hrefValue = window.location.href
@@ -157,7 +158,7 @@ export default function Talk({ user, id, picture }) {
 
             {error? alert(error) : ""}
 
-            <Header id={id} inputVideo={true} img={picture} user={user} noProfile={undefined}/>
+            <Header id={id} inputVideo={true} img={picture} user={user} noProfile={true}/>
 
             <main className={styles.main}>
                 <div className={styles.pop_up}>

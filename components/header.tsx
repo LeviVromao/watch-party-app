@@ -1,7 +1,8 @@
-import styles from "./Header.module.css";
+import styles from "../styles/Header.module.css"
 import Link from "next/link";
 import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
+import { BiSolidSend } from "react-icons/bi"
 import { api } from "../services/api";
 import { parseCookies } from "nookies";
 import Image from "next/image";
@@ -44,25 +45,46 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
                     />
                 </Link>
 
-                {inputVideo?                
-                    <form 
-                        className={styles.form} 
+                {
+                inputVideo?                
+                   (
+                    <>
+                    <form
+                        className={styles.form}
                         onClick={sendVideo}
-                    >
-                        <input 
-                            type="text" 
-                            className={styles.inputVideo} 
+                        >
+                        <input
+                            type="text"
+                            className={styles.inputVideo}
                             placeholder="Escolher vídeo"
-                            onChange={ e => setVideo(e.target.value)}
-                            value={video}
+                            onChange={e => setVideo(e.target.value)}
+                            value={video} 
                         />
-                        
-                        <input 
-                            type="submit" 
-                            value="Escolher" 
-                            className={styles.submit}
-                        />
-                    </form> : 
+                        <button type="submit" className={styles.submit}>
+                            <BiSolidSend className={styles.sendButton} />
+                        </button>
+                        </form>
+                        <div className={styles.formContainer}>
+                            {img ?
+                                (
+                                    <Link href={`/profile?id=${id}`}>
+                                        <Image
+                                            src={img}
+                                            alt={`A photo by ${user}`}
+                                            className={styles.profileImage}
+                                            width={50}
+                                            height={50} 
+                                        />
+                                    </Link>
+                                ) :
+                                (
+                                    <Link href={`/profile?id=${id}`}>
+                                        <FaUserCircle className={styles.defaultProfile} />
+                                    </Link>
+                            )}
+                        </div>
+                    </>
+                    ): 
                         ""
                     }
                 { noProfile? 
