@@ -6,7 +6,7 @@ import Header from "../../components/header";
 import { AiOutlineArrowUp } from "react-icons/ai"
 import React from "react";
 
-export default function Home( { id, name, picture } ) {
+export default function Home( { _id, name, picture } ) {
     return (
         <>
            <Head>
@@ -17,7 +17,7 @@ export default function Home( { id, name, picture } ) {
                 <link rel="icon" href="https://th.bing.com/th/id/OIG.DKYsTD6pJtVIu0.XWPy6?pid=ImgGn" />
             </Head> 
             <div className={`container`}>
-                <Header id={id} img={picture} user={name} inputVideo={undefined} noProfile={undefined}/>
+                <Header id={_id} img={picture} user={name} inputVideo={undefined} noProfile={undefined}/>
                 <main className={styles.main}>
                     {name? 
                         <div className={styles.saudation}>
@@ -62,9 +62,7 @@ export default function Home( { id, name, picture } ) {
 }
 
 export const getServerSideProps = async (ctx) =>{
-    const {"auth.token": token} = parseCookies(ctx)
-
-
+    const {"authToken": token} = parseCookies(ctx)
     if(!token) {
         return {
             redirect: {
@@ -75,17 +73,16 @@ export const getServerSideProps = async (ctx) =>{
     }
 
     const apiClient = getApiClient(ctx);
-    const { data } = await apiClient.post("/api/user", {}, {
+    const { data } = await apiClient.post("/user", {}, {
         headers: {
-            Authorization: token,
+            authorization: token,
         }
     });
 
-    const { id, name = '', picture = '' } = data
-
+    const { _id, name = '', picture = '' } = data.user
     return {
         props: {
-            id, 
+            _id, 
             ...(name && {name}), 
             ...(picture && {picture})
         }

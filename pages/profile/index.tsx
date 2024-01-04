@@ -2,7 +2,6 @@ import Header from "../../components/header";
 import { api } from "../../services/api";
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 import styles from "../../styles/Profile.module.css"
 import Router  from "next/router";
 import { confirmAlert } from 'react-confirm-alert';
@@ -10,6 +9,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useState } from "react";
 import { parseCookies } from "nookies";
 import React from "react";
+import { getApiClient } from "../../services/apiClient";
 
 export default function ProfileIDS( { id, name, picture, message } ){
     const [newName, setNewName] = useState("");
@@ -26,20 +26,19 @@ export default function ProfileIDS( { id, name, picture, message } ){
                     label: 'Sim',
                     onClick: async () => {
                         if( image && !newName ) {
-
-                            await api.post('/api/updateUser', {
+                            await api.post('/updateUser', {
                                 image, 
                                 id
                             })
             
                         } else if( newName && !image ) {
-                            await api.post("/api/updateUser", {
+                            await api.post("/updateUser", {
                                 name: newName,
                                 id
                             })
             
                         } else if( newName && image ){
-                            await api.post("/api/updateUser", {
+                            await api.post("/updateUser", {
                                 name: newName,
                                 image,
                                 id
@@ -61,7 +60,6 @@ export default function ProfileIDS( { id, name, picture, message } ){
 
     const handleCancel = (e) => {
         e.preventDefault();
-        const res = confirm("Deseja cancelar as alteraçôes feitas até agora?");
         confirmAlert({
             title: 'Confirmação',
             message: 'Deseja cancelar as alterações feitas até agora?',
@@ -77,12 +75,7 @@ export default function ProfileIDS( { id, name, picture, message } ){
                 }
             ]
         })
-        if( res ) {
-            Router.push('/home');
-            return
-        } 
     }
-
     return (
         <>
             <Head>
@@ -105,6 +98,7 @@ export default function ProfileIDS( { id, name, picture, message } ){
                             {picture? 
                             <Image 
                                 src={`${picture}`}
+                                loader={() => `${picture}`}
                                 alt={`A photo by ${name}`} 
                                 width={200} 
                                 height={200}
@@ -113,6 +107,7 @@ export default function ProfileIDS( { id, name, picture, message } ){
                             : 
                             <Image 
                                 src={`https://th.bing.com/th?id=OIP.d9W3MDj5NqeMkDMOMyigCQHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2`}
+                                loader={() => `https://th.bing.com/th?id=OIP.d9W3MDj5NqeMkDMOMyigCQHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2`}
                                 alt={`A photo by ${name}`} 
                                 width={200} 
                                 height={200}
@@ -133,7 +128,7 @@ export default function ProfileIDS( { id, name, picture, message } ){
                                     className={styles.input_name}
                                     value={newName}
                                     onChange={e => setNewName(e.target.value)}
-                                    placeholder="Troque de nome."
+                                    placeholder="Escolha um nome."
                                     id="name"
                                 />                           
                             </div>
@@ -164,7 +159,7 @@ export default function ProfileIDS( { id, name, picture, message } ){
 
 
 export async function getServerSideProps(ctx) {
-    const {"auth.token": token} = parseCookies(ctx);
+    const {"authToken": token} = parseCookies(ctx);
     const id = ctx.query.id
 
     if(!token) {
@@ -176,6 +171,8 @@ export async function getServerSideProps(ctx) {
         }
     }
 
+    const apiClient = getApiClient(ctx);
+
     if(!id) {
         return {
             props: {
@@ -184,11 +181,11 @@ export async function getServerSideProps(ctx) {
         }
     }
 
-    const { data } = await api.post('/api/user', {
+    const { data } = await apiClient.post('/user', {
         id
     })
 
-    const { name = '', picture = '', id: _id = '' } = data;
+    const { name = '', picture = '', id: _id = '' } = data.user;
 
     return {
         props: {

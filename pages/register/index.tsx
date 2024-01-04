@@ -1,25 +1,54 @@
 import Head from "next/head";
-import { useState } from "react";
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { authContext } from "../..//context/authProvider";
 import styles from '../../styles/register.module.css';
+import { Triangle } from "react-loader-spinner";
 import Image from "next/image";
 import { AiOutlineArrowRight } from 'react-icons/ai'
 import React from "react";
+import { setCookie } from "nookies";
+
+interface Messages {
+  hour: string
+  message: string
+}
 
 export default function Register() {
 
-    const [email, setEmail] = useState("")
-    const [pass, setPass] = useState("");
-    const { signUp, error } = useContext(authContext);
+    const [email, setEmail] = useState("");
+    const [password, setPass] = useState("");
+    const [ loading, setLoading ] = useState<boolean>(false);
+    const [ time, setTime ] = useState<string>("");
+    const [ messages, setMessages ] = useState<Array<Messages>>([]);
     
-    const handleRegister = e =>{
+    const handleRegister = async e =>{
       e.preventDefault();
-  
-      signUp(email, pass);
+      setLoading(true)
+      const res = await fetch('https://watch-party-backend.vercel.app/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email, password})
+      })
+      const data = res.status? await res.json(): ''
+
+      if(res.status === 404) {
+        setMessages(prevMessages => [...prevMessages, {message: data.message, hour: data.hour}])
+        setLoading(false)
+      } else if(res.status === 201) {
+        setCookie(undefined, 'authToken', data.token, {
+          maxAge: 60 * 60 * 1 // 1 hora de sessao.
+        })
+        setLoading(false)
+      }
     }
-  
+
+    useEffect(() => {
+      const date = new Date()
+      const hours = `${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`
+      setTime(hours)
+    }, [])
     return (
       <div className={styles.registerBody}>
         <Head>
@@ -37,26 +66,32 @@ export default function Register() {
                     <p className={styles.chatStatus}>Online</p>
                   </div>
                 </div>
-                <p className={styles.chatHour}>Hoje 19:12</p>
+                <p className={styles.chatHour}>Hoje {time}</p>
               <div className={styles.messagesContainer}>
                 <div className={styles.messageContainerWatchParty}>
                   <div className={styles.messageWatchParty}>
-                    <p className={styles.messageHourWatchParty}>Watch Party - 19:30</p>
+                    <p className={styles.messageHourWatchParty}>Watch Party - {time}</p>
                     <p className={styles.messageBubbleWatchParty}>Olá, bem vindo(a) qual seu email?</p>
                   </div>
                 </div>
-                <div className={styles.messageContainerYou}>
-                  <div className={styles.messagesYou}>
-                    <p className={styles.messageHour}>Você - 19:23</p>
-                    <p className={styles.messageBubbleYou}>Meu email é: levi@challenger.com</p>
+                {email ? (
+                  <div className={styles.messageContainerYou}>
+                    <div className={styles.messagesYou}>
+                       <p className={styles.messageHour}>Você - {time}</p>
+                      <p className={styles.messageBubbleYou}>Meu email é: {email}</p>
+                    </div>
                   </div>
-                </div>
-                <div className={styles.messageContainerYou}>
-                  <div className={styles.messagesYou}>
-                    <p className={styles.messageHour}>Você - 19:24</p>
-                    <p className={styles.messageBubbleYou}>vou fazer a funcionalidade do chat depois man...</p>
+                ): ''}
+                {messages.length >= 1? (
+                  messages.map((msg, i) => (
+                    <div className={styles.messageContainerWatchParty} key={i}>
+                    <div className={styles.messageWatchParty}>
+                      <p className={styles.messageHourWatchParty}>Watch Party - {msg.hour}</p>
+                      <p className={styles.messageBubbleWatchParty}>{msg.message}</p>
+                    </div>
                   </div>
-                </div>
+                  ))
+                ): ''}
               </div>
             </div>
             <form onSubmit={handleRegister} className={styles.signupForm}>
@@ -81,6 +116,12 @@ export default function Register() {
               </div>
             </form>
         </div>
+        {loading? 
+        (
+          <div className={styles.spinner}>
+            <Triangle height={38} width={38} color="#ffff" />
+          </div>
+        ): ""}
       </div>
     )
 }

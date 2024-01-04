@@ -96,6 +96,13 @@
     cursor: pointer;
 }
 
+.error {
+    color: #Ff0000;
+    margin-bottom: 13px;
+    font-size: 17px;
+    user-select: none;
+}
+
 .newUser {
     display: flex;
     justify-content: center;
@@ -116,6 +123,15 @@
 .link {
     text-decoration: none;
     color: #3b82f6;
+}
+
+.spinner {
+    background: #000;
+    border-radius: 7px;
+    position: absolute;
+    padding: 6px;
+    right: 41px;
+    bottom: 28px;
 }
 
 @media (min-width: 400px) {

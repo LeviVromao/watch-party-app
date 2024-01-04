@@ -28,6 +28,7 @@
     "react-confirm-alert": "^3.0.6",
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
+    "react-loader-spinner": "^5.4.5",
     "vercel": "^30.2.3"
   },
   "devDependencies": {

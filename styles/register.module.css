@@ -9,6 +9,15 @@
 
 .chatContainer {
     width: 50%;
+    overflow: auto;
+}
+
+.chatContainer::-webkit-scrollbar {
+    width: 12px; 
+}
+
+.chatContainer::-webkit-scroll-corner {
+    background:#011627;
 }
 
 .formContainer {
@@ -66,14 +75,6 @@
     flex-direction: column;
 }
 
-.messagesContainer::-webkit-scrollbar {
-    width: 12px; 
-}
-
-.messagesContainer::-webkit-scroll-corner {
-    background:#011627;
-}
-
 .messageContainerYou {
     width: 100%;
     margin-bottom: 22px;
@@ -99,6 +100,7 @@
     color: white;
     width: 100%;
     float: left;
+    margin-bottom: 18px;
 }
 
 .messageWatchParty {
@@ -154,6 +156,7 @@
     border-radius: .25rem;
     min-width: 230px;
     max-width: 230px;
+    padding: 6px;
 }
 
 .signupSubmit {
@@ -184,6 +187,15 @@
 .link {
     text-decoration: none;
     color: #3b82f6;
+}
+
+.spinner {
+    position: absolute;
+    padding: 6px;
+    right: 20px;
+    bottom: 19px;
+    background: #000;
+    border-radius: 7px;
 }
 
 @media (max-width: 800px) {

@@ -47,6 +47,10 @@
     padding-left: 13px;
 }
 
+.input_name::placeholder {
+    color: white;
+}
+
 .buttons {
     display: flex;
     justify-content: center;

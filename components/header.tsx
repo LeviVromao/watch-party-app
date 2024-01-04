@@ -14,24 +14,23 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
     const sendVideo = async event =>{
         event.preventDefault();
         
-        const {"auth.token": token} = parseCookies();
+        const {"authToken": token} = parseCookies();
         const apiClient = api;
         const room = new URLSearchParams(window.location.search).get("room");
 
         if(video) {
-            await apiClient.post("/api/video", {
+            await apiClient.post("/videos", {
                 video,
                 room
             }, {
                 headers :{
-                    Authorization: token
+                    authorization: token
                 }
             })
+            setVideo("");
         }
-        
-        setVideo("");
     }
-
+        
     return (
         <>
             <header className={styles.header}>
@@ -71,6 +70,7 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
                                         <Image
                                             src={img}
                                             alt={`A photo by ${user}`}
+                                            loader={() => `${img}`}
                                             className={styles.profileImage}
                                             width={50}
                                             height={50} 
@@ -93,6 +93,7 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
                     <Link href={`/profile?id=${id}`}>
                         <Image 
                             src={img} 
+                            loader={() => `${img}`}
                             alt={`A photo by ${user}`} 
                             className={styles.profileImage}
                             width={50}

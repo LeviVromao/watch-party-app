@@ -42,6 +42,7 @@ export default function Talk({ user, id, picture }) {
         });
 
         channel.bind('messages', (data) => {
+            console.log(data.message)
             setMessages(prevMessages => [
                 ...prevMessages,
                 { message: data.message, name: data.name }
@@ -127,18 +128,17 @@ export default function Talk({ user, id, picture }) {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=> {
         e.preventDefault()
-        const {"auth.token": token} = parseCookies();
+        const {"autToken": token} = parseCookies();
         const room = new URLSearchParams(window.location.search).get("room");
         
         if(sendMessage) {
-            await api.post("/api/messages", {
-                sendMessage,
-                room,
-                user,
-            }, {
+            await fetch("https://watch-party-backend.vercel.app/messages", {
+                method: "POST",
                 headers: {
-                    Authorization: token
-                }
+                    "Content-type": "application/json",
+                    authorization: token
+                },
+                body: JSON.stringify({sendMessage, room, user})
             })
         }
         
@@ -265,7 +265,7 @@ export default function Talk({ user, id, picture }) {
 
 export const getServerSideProps = async (ctx) => {
     const apiClient = getApiClient(ctx);
-    const {"auth.token": token} = parseCookies(ctx);
+    const {"authToken": token} = parseCookies(ctx);
 
     if(!token){
         return {
@@ -276,13 +276,13 @@ export const getServerSideProps = async (ctx) => {
         }
     }
 
-    const { data } = await apiClient.get("/api/user", {
+    const { data } = await apiClient.post("/user", {
         headers:{
-            Authorization: token
+            authorization: token
         }
     })
     
-    const { name: user = '', id, picture = '' } = data;
+    const { name: user = '', _id: id, picture = '' } = data.user;
 
     return{
         props: {

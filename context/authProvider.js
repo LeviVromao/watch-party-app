@@ -9,18 +9,18 @@ export function AuthProvider( {children} ){
     
     const [user, setUser] = useState("");
     const [error, setError] = useState("");
-    const isAuthenticated = !!user;
+    const [ isAuthenticated, setIsAuthenticated ] = useState(false)
 
     const signIn = async ( email, password ) => {
 
-        const { data } = await api.post("/api/authLogin", { 
+        const { data } = await api.post("/login", { 
             email, 
             password
         });
 
-        if(data.error) {
+        if(data.message) {
 
-            setError(data.error);
+            setError(data.message);
 
         } else {
 
@@ -28,10 +28,9 @@ export function AuthProvider( {children} ){
                 maxAge: 60 * 60 * 1 // 1 hora de sessao.
             });
 
-            setUser(data.user.email);
+            setUser(data.user);
             api.defaults.headers.Authorization = `Bearer ${data.token}`;
-            Router.push("/home");
-
+            setIsAuthenticated(true)
         }
 
     }
