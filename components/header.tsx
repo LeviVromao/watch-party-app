@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { BiSolidSend } from "react-icons/bi"
-import { api } from "../services/api";
 import { parseCookies } from "nookies";
 import Image from "next/image";
 import React from "react";
@@ -15,17 +14,16 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
         event.preventDefault();
         
         const {"authToken": token} = parseCookies();
-        const apiClient = api;
         const room = new URLSearchParams(window.location.search).get("room");
 
         if(video) {
-            await apiClient.post("/videos", {
-                video,
-                room
-            }, {
-                headers :{
+            await fetch("https://watch-party-levi.vercel.app/api/video", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
                     authorization: token
-                }
+                },
+                body: JSON.stringify({room, video})
             })
             setVideo("");
         }

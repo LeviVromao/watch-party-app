@@ -15,7 +15,6 @@ export default function handler(req, res) {
                 cluster: "sa1",
                 useTLS: true
             });
-            
             const url = video;
             const regex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?(?=.*v=[\w-]+)(?:\S+)?|embed\/[\w-]+|v\/[\w-]+|(?:(?:[\w-]+\.)*[\w-]+\/?)\S+)|youtu\.be\/[\w-]+)$/;
             const isYoutubeURL = regex.test(url);

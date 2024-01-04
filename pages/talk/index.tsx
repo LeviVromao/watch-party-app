@@ -1,4 +1,3 @@
-import { getApiClient } from "../../services/apiClient"
 import { parseCookies } from "nookies";
 import Header from "../../components/header";
 import Head from "next/head";
@@ -9,6 +8,7 @@ import { useEffect, useState } from "react";
 import Pusher from "pusher-js";
 import Image from "next/image";
 import { api } from "../../services/api";
+import { getApiClient } from "../../services/apiClient";
 import { IEmoji } from "../../services/Interface";
 import { BiCopy } from 'react-icons/bi'
 import React from 'react'
@@ -128,18 +128,18 @@ export default function Talk({ user, id, picture }) {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=> {
         e.preventDefault()
-        const {"autToken": token} = parseCookies();
+        const {"authToken": token} = parseCookies();
         const room = new URLSearchParams(window.location.search).get("room");
-        
+        const apiClient = api
         if(sendMessage) {
-            await fetch("https://watch-party-backend.vercel.app/messages", {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json",
-                    authorization: token
-                },
-                body: JSON.stringify({sendMessage, room, user})
-            })
+           await fetch("https://watch-party-levi.vercel.app/api/messages",  {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                authorization: token
+            },
+            body: JSON.stringify({sendMessage, room, user})
+           })
         }
         
         setSendMessage('');
