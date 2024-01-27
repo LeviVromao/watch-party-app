@@ -5,7 +5,6 @@ import styles from "../../styles/Chat.module.css";
 import data from '@emoji-mart/data'
 import Picker  from "@emoji-mart/react";
 import { useEffect, useRef, useState } from "react";
-import Pusher from "pusher-js";
 import Image from "next/image";
 import { getApiClient } from "../../services/apiClient";
 import { IEmoji } from "../../services/Interface";
