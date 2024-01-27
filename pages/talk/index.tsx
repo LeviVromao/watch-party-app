@@ -4,61 +4,81 @@ import Head from "next/head";
 import styles from "../../styles/Chat.module.css";
 import data from '@emoji-mart/data'
 import Picker  from "@emoji-mart/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Pusher from "pusher-js";
 import Image from "next/image";
-import { api } from "../../services/api";
 import { getApiClient } from "../../services/apiClient";
 import { IEmoji } from "../../services/Interface";
 import { BiCopy } from 'react-icons/bi'
+import { BiSolidMicrophone } from "react-icons/bi";
+import { PiPhoneDisconnectFill } from "react-icons/pi"
+import { MdClose } from "react-icons/md";
+import {config} from "dotenv"
 import React from 'react'
+import Peer from "simple-peer"
+import { io } from "socket.io-client"
+config();
 
-export default function Talk({ user, id, picture }) {
+export default function Talk({ user, id, picture, appId }) {
     const [video, setVideo ] = useState("");
     const [error, setError] = useState("");
     const [sendMessage, setSendMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const [room, setRoom] = useState("");
-    const [popupVisible, setPopupVisible] = useState(false)
+    const [popupVisible, setPopupVisible] = useState<Boolean>(false)
     const [ invite, setInvite ] = useState('')
-    
+    const socketRef = useRef(null)
+
     useEffect(() => {
-        const pusher = new Pusher('91b3f8b373b617f82771', {
-            cluster: 'sa1'
-          });
-        
+        const socket = io("https://watch-party-backend.vercel.app:8000/")
+        socketRef.current = socket
         const roomQuery = new URLSearchParams(window.location.search).get("room");
         const roomValue = roomQuery || "";
         setRoom(roomValue);
-
-        var channel = pusher.subscribe(room);
-
-        channel.bind('videos', (data) => {
-            if(data.error) {
-                setError(data.error);
-            } else {
-                setVideo(data.video);
-            }
-        });
-
-        channel.bind('messages', (data) => {
-            console.log(data.message)
-            setMessages(prevMessages => [
-                ...prevMessages,
-                { message: data.message, name: data.name }
-              ]);
-            setSendMessage('')
-        })
+        socket.emit("room:join", {room, user, id})
 
         const hrefValue = window.location.href
         setInvite(hrefValue)
 
-        return () => {
-            pusher.unsubscribe(room);
-        };
-          
-    }, [room])
+        // const gotMedia = (stream) => {
+        //     const peer = new Peer({initiator: true, stream})
+            
+        //     peer.on("signal", data => {
+        //         const dataToWS = {
+        //             offer: data,
+        //             room
+        //         }
+        //     })
 
+        //     peer.on('stream', remoteStream => {
+        //         const audio = new Audio()
+        //         audio.srcObject = remoteStream
+        //         audio.play()
+        //     })
+        // }
+
+        // navigator.mediaDevices.getUserMedia({audio: true})
+        // .then(gotMedia)
+        socket.on("message", data => {
+            setMessages(prevMessages => [
+                ...prevMessages,
+                { message: data.message, name: data.user }
+              ]);
+            setSendMessage('')
+        })
+
+        socket.on("video", data => {
+            if(data.error) {
+                setError(data.error);
+            } else {
+                setVideo(data);
+            }
+        })
+        return () => {
+            socket.close()
+        };
+    }, [room])
+    
     const appearEmoji = (e: React.MouseEvent<HTMLButtonElement>) => {
         const emoji_card = document.querySelector(`.${styles.emoji_card}`) as HTMLElement
         e.stopPropagation()
@@ -80,35 +100,56 @@ export default function Talk({ user, id, picture }) {
     }
       
     const openPopup = () => {
-        const pop_up = document.querySelector(`.${styles.pop_up}`) as HTMLElement
-
-        pop_up.classList.remove(`${styles.pop_up}`);
-        pop_up.classList.add(`${styles.disapear_popup}`);
+        const pop_up = document.querySelector(`.${styles.pop_up}`) as HTMLDivElement
+        pop_up.style.display = "flex"
         setTimeout(() => {
             setPopupVisible(true)
         }, 2000);
-            
     }
 
-    useEffect(() => {
+    const openVoicePlayers = () => {
+        const voicePlayersPopup = document.querySelector(`.${styles.voicePlayerPopup}`) as HTMLDivElement
+        if(!voicePlayersPopup.style.display.includes("flex")) {
+            voicePlayersPopup.style.display = "flex"
+            setTimeout(() => {
+                setPopupVisible(true)
+            }, 2000);
+        }
+    }
 
-            const popup_content = document.querySelector(`.${styles.popup_content}`)
-            const pop_up = document.querySelector(`.${styles.disapear_popup}`) as HTMLElement
-            
-            const handleDocumentClick = (e) => {
-                if(popupVisible && !popup_content.contains(e.target)) {
-                    pop_up.classList.remove(`${styles.disapear_popup}`)
-                    pop_up.classList.add(`${styles.pop_up}`)
-                    setPopupVisible(false)
-                }
-            };
+    const closeVoicePlayers = () => {
+        const voicePlayersPopup = document.querySelector(`.${styles.voicePlayerPopup}`) as HTMLDivElement
+        if(!voicePlayersPopup.style.display.includes("none")) {
+            voicePlayersPopup.style.display = "none"
+            setTimeout(() => {
+                setPopupVisible(true)
+            }, 2000);
+        }
+    }    
+
+    useEffect(() => {
+        const pop_up = document.querySelector(`.${styles.pop_up}`) as HTMLDivElement
+        const voicePlayerPopup = document.querySelector(`.${styles.voicePlayerPopup}`) as HTMLDivElement
+        const popup_content = document.querySelector(`.${styles.popup_content}`)
+        const voicePlayerContainer = document.querySelector(`.${styles.voicePlayerContainer}`)
+
+        const handleDocumentClick = (e) => {
+            if(popupVisible && !popup_content.contains(e.target)) {
+                pop_up.style.display = "none"
+                setPopupVisible(false)
+            } 
+
+            if(popupVisible && !voicePlayerContainer.contains(e.target)) {
+                voicePlayerPopup.style.display = "none"
+                setPopupVisible(false)
+            }
+        };
     
-            document.addEventListener('click', handleDocumentClick);
+        document.addEventListener('click', handleDocumentClick);
         
-            return () => {
-              document.removeEventListener('click', handleDocumentClick);
-            };
-    
+        return () => {
+          document.removeEventListener('click', handleDocumentClick);
+        };
     }, [popupVisible]);
 
     const copyInvite = async () => {
@@ -130,22 +171,12 @@ export default function Talk({ user, id, picture }) {
         e.preventDefault()
         const {"authToken": token} = parseCookies();
         const room = new URLSearchParams(window.location.search).get("room");
-        const apiClient = api
-        if(sendMessage) {
-           await fetch("https://watch-party-levi.vercel.app/api/messages",  {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                authorization: token
-            },
-            body: JSON.stringify({sendMessage, room, user})
-           })
-        }
-        
+        if(sendMessage && socketRef.current) {
+            socketRef.current.emit("messages", {sendMessage, user, token, room})
+        }  
         setSendMessage('');
     }
-
-        
+    
     return (
         <>
             <Head>
@@ -155,11 +186,8 @@ export default function Talk({ user, id, picture }) {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="https://th.bing.com/th/id/OIG.DKYsTD6pJtVIu0.XWPy6?pid=ImgGn" />
             </Head>
-
             {error? alert(error) : ""}
-
             <Header id={id} inputVideo={true} img={picture} user={user} noProfile={true}/>
-
             <main className={styles.main}>
                 <div className={styles.pop_up}>
                     <div className={styles.popup_content}>
@@ -180,6 +208,15 @@ export default function Talk({ user, id, picture }) {
                                 </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div className={styles.voicePlayerPopup}>
+                    <div className={styles.voicePlayerContainer}>
+                        <div className={styles.players}>
+                            <BiSolidMicrophone className={styles.muteButton}/>
+                            <PiPhoneDisconnectFill className={styles.disconnectButton}/>
+                        </div>
+                        <MdClose onClick={closeVoicePlayers} className={styles.closeVoicePlayers}/>
                     </div>
                 </div>
                 <div className={styles.videoContainer}>
@@ -216,7 +253,8 @@ export default function Talk({ user, id, picture }) {
                 </div>
                 <div className={styles.chat}>
                     <div className={styles.chat_header}>
-                        <input type="button" onClick={openPopup} className={styles.invite_button} value="Convidar amigos" />
+                        <input type="button" onClick={openPopup} className={styles.invite_button} value="Convidar Amigos" />
+                        <input type="button" onClick={openVoicePlayers} className={styles.voiceChatButton} value="🗣️Chat de Voz"/>
                     </div>
                     
                     <div className={styles.messagesContainer}>
@@ -266,7 +304,7 @@ export default function Talk({ user, id, picture }) {
 export const getServerSideProps = async (ctx) => {
     const apiClient = getApiClient(ctx);
     const {"authToken": token} = parseCookies(ctx);
-
+    const appId = process.env.APP_ID
     if(!token){
         return {
             redirect: {
@@ -288,7 +326,8 @@ export const getServerSideProps = async (ctx) => {
         props: {
             id,
             ...(user && {user}),
-            ...(picture && {picture})
+            ...(picture && {picture}),
+            appId
         }
     }
 }

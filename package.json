@@ -11,6 +11,7 @@
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
+    "@types/socket.io-client": "^3.0.0",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",
@@ -28,10 +29,13 @@
     "react-confirm-alert": "^3.0.6",
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
-    "react-loader-spinner": "^5.4.5",
+    "react-loader-spinner": "^6.1.6",
+    "simple-peer": "^9.11.1",
+    "socket.io-client": "^4.7.4",
     "vercel": "^30.2.3"
   },
   "devDependencies": {
-    "@types/react": "^18.2.21"
+    "@types/react": "^18.2.21",
+    "@types/simple-peer": "^9.11.8"
   }
 }

@@ -112,6 +112,67 @@
     color: #fff;
 }
 
+.voicePlayerPopup {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    backdrop-filter: blur(3px);
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+}
+
+.voicePlayerContainer {
+    width: 202px;
+    border-radius: 10px;
+    display: flex;
+    align-items: self-end;
+    justify-content: space-between;
+    height: 61px;
+    padding: 7px 8px 5px 5px;
+    background-color: #772ce8;
+}
+
+.players {
+    align-items: center;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.muteButton {
+    font-size: 37px;
+    cursor: pointer;
+}
+
+.muteButton:hover {
+    color: #141414;
+}
+
+.disconnectButton {
+    font-size: 42px;
+    background-color: #ff0000;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.disconnectButton:hover {
+    background-color: #DC143C;
+}
+
+.closeVoicePlayers {
+    align-self: flex-start;
+    font-size: 19px;
+    cursor: pointer;
+}
+
+.closeVoicePlayers:hover {
+    background-color: #fff;
+    border-radius: 6px;
+}
+
 .videoContainer {
     width: 100%;
     padding: 10px;
@@ -123,6 +184,7 @@
 }
 
 .videoFake {
+    user-select: none;
     height: 90%;
     border: 1px solid black;
     display: flex;
@@ -134,16 +196,31 @@
 
 .invite_button {
     background: #FF8811;
-    border: 1px solid white;
+    border: 1px solid #FF8811;
     color: #fff;
     border-radius: 5px;
     font-size: 15px;
-    padding: 10px;
+    padding: 5px;
     cursor: pointer;
 }
 
 .invite_button:hover {
     background: #D46E00;
+}
+
+.voiceChatButton {
+    border-radius: 5px;
+    background-color: #772ce8;
+    color: #fff;
+    border: 1px solid #772ce8;
+    padding: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.voiceChatButton:hover {
+    background-color: #470099;
+    border: 1px solid #470099;
 }
 
 .logo {
@@ -174,6 +251,8 @@
 
 .chat_header {
     border-bottom: 2px solid #7a828e;
+    display: flex;
+    justify-content: space-evenly;
     padding: 8px;
 }
 
@@ -213,7 +292,6 @@
     justify-content: center;
     border-radius: 8px;
     border: 2px solid #7a828e;
-    position: relative;
 }
 
 .chat_input {

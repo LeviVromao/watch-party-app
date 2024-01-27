@@ -5,26 +5,18 @@ import { FaUserCircle } from "react-icons/fa";
 import { BiSolidSend } from "react-icons/bi"
 import { parseCookies } from "nookies";
 import Image from "next/image";
+import { io } from "socket.io-client";
 import React from "react";
 
 export default function Header( { id, inputVideo, noProfile, img, user } ) {
     const [video, setVideo] = useState("");
-
+    const socket = io("https://watch-party-backend.vercel.app:8000/")
     const sendVideo = async event =>{
         event.preventDefault();
-        
-        const {"authToken": token} = parseCookies();
         const room = new URLSearchParams(window.location.search).get("room");
 
         if(video) {
-            await fetch("https://watch-party-levi.vercel.app/api/video", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    authorization: token
-                },
-                body: JSON.stringify({room, video})
-            })
+            socket.emit("videos", {room, video})
             setVideo("");
         }
     }
