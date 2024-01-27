@@ -5,6 +5,7 @@ import styles from "../../styles/Chat.module.css";
 import data from '@emoji-mart/data'
 import Picker  from "@emoji-mart/react";
 import { useEffect, useRef, useState } from "react";
+import Pusher from "pusher-js";
 import Image from "next/image";
 import { getApiClient } from "../../services/apiClient";
 import { IEmoji } from "../../services/Interface";
@@ -29,7 +30,7 @@ export default function Talk({ user, id, picture, appId }) {
     const socketRef = useRef(null)
 
     useEffect(() => {
-        const socket = io("https://watch-party-backend.vercel.app:8000/")
+        const socket = io("hhttps://watch-party-backend.vercel.app/")
         socketRef.current = socket
         const roomQuery = new URLSearchParams(window.location.search).get("room");
         const roomValue = roomQuery || "";

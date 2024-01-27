@@ -10,7 +10,7 @@ import React from "react";
 
 export default function Header( { id, inputVideo, noProfile, img, user } ) {
     const [video, setVideo] = useState("");
-    const socket = io("https://watch-party-backend.vercel.app:8000/")
+    const socket = io("https://watch-party-backend.vercel.app/")
     const sendVideo = async event =>{
         event.preventDefault();
         const room = new URLSearchParams(window.location.search).get("room");
