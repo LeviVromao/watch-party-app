@@ -25,10 +25,10 @@ export default function Login() {
     e.preventDefault();
     setLoading(true)
     
-    const res = await fetch('https://watch-party-backend.vercel.app/login', {
-      method: 'POST',
+    const res = await fetch("https://watch-party-backend.vercel.app/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({email, password})
     })

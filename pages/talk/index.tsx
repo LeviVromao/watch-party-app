@@ -30,7 +30,7 @@ export default function Talk({ user, id, picture, appId }) {
     const socketRef = useRef(null)
 
     useEffect(() => {
-        const socket = io("hhttps://watch-party-backend.vercel.app/")
+        const socket = io("https://watch-party-backend.vercel.app/")
         socketRef.current = socket
         const roomQuery = new URLSearchParams(window.location.search).get("room");
         const roomValue = roomQuery || "";
@@ -77,6 +77,7 @@ export default function Talk({ user, id, picture, appId }) {
         return () => {
             socket.close()
         };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [room])
     
     const appearEmoji = (e: React.MouseEvent<HTMLButtonElement>) => {
