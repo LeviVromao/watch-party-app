@@ -16,7 +16,6 @@ import { MdClose } from "react-icons/md";
 import {config} from "dotenv"
 import React from 'react'
 import Peer from "simple-peer"
-import { io } from "socket.io-client"
 config();
 
 export default function Talk({ user, id, picture, appId }) {
@@ -27,39 +26,23 @@ export default function Talk({ user, id, picture, appId }) {
     const [room, setRoom] = useState("");
     const [popupVisible, setPopupVisible] = useState<Boolean>(false)
     const [ invite, setInvite ] = useState('')
-    const socketRef = useRef(null)
+    const channelRef = useRef(null)
 
     useEffect(() => {
-        const socket = io("https://watch-party-backend.vercel.app/")
-        socketRef.current = socket
-        const roomQuery = new URLSearchParams(window.location.search).get("room");
-        const roomValue = roomQuery || "";
-        setRoom(roomValue);
-        socket.emit("room:join", {room, user, id})
+       const peer = new Peer({initiator: true})
+       const pusher = new Pusher("91b3f8b373b617f82771", {
+        cluster: "sa1"
+       })
+       const roomQuery = new URLSearchParams(window.location.search).get("room");
+       const roomValue = roomQuery || "";
+       setRoom(roomValue);
+       const channel = pusher.subscribe(room)
+       channelRef.current = channel
 
         const hrefValue = window.location.href
         setInvite(hrefValue)
 
-        // const gotMedia = (stream) => {
-        //     const peer = new Peer({initiator: true, stream})
-            
-        //     peer.on("signal", data => {
-        //         const dataToWS = {
-        //             offer: data,
-        //             room
-        //         }
-        //     })
-
-        //     peer.on('stream', remoteStream => {
-        //         const audio = new Audio()
-        //         audio.srcObject = remoteStream
-        //         audio.play()
-        //     })
-        // }
-
-        // navigator.mediaDevices.getUserMedia({audio: true})
-        // .then(gotMedia)
-        socket.on("message", data => {
+        channel.bind("message", data => {
             setMessages(prevMessages => [
                 ...prevMessages,
                 { message: data.message, name: data.user }
@@ -67,19 +50,46 @@ export default function Talk({ user, id, picture, appId }) {
             setSendMessage('')
         })
 
-        socket.on("video", data => {
+        channel.bind("video", data => {
             if(data.error) {
                 setError(data.error);
             } else {
-                setVideo(data);
+                setVideo(data.video);
             }
         })
+
+        peer.on("signal", data => {
+            fetch("https://watch-party-levi.vercel.app/api/peer", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({signal: data, room})
+            })
+        })
+
         return () => {
-            socket.close()
+            channel.disconnect()
+            if(peer) {
+                peer.destroy()
+            }
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [room])
-    
+
+    const answerCall = () => {
+        const peer = new Peer({initiator: false})
+        if(channelRef.current) {
+            channelRef.current.bind("signal", data => {
+                peer.signal(data.signal)
+            })
+        }
+    }
+
+    useEffect(() => {
+        const messageEnd = document.getElementById("messageEnd") as HTMLDivElement
+        messageEnd.scrollIntoView()
+    }, [messages])
+
     const appearEmoji = (e: React.MouseEvent<HTMLButtonElement>) => {
         const emoji_card = document.querySelector(`.${styles.emoji_card}`) as HTMLElement
         e.stopPropagation()
@@ -89,7 +99,6 @@ export default function Talk({ user, id, picture, appId }) {
         } else {
             emoji_card.style.display = 'block'
         }
-
     }
 
     const handleMessages = (e) => {
@@ -171,10 +180,14 @@ export default function Talk({ user, id, picture, appId }) {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=> {
         e.preventDefault()
         const {"authToken": token} = parseCookies();
-        const room = new URLSearchParams(window.location.search).get("room");
-        if(sendMessage && socketRef.current) {
-            socketRef.current.emit("messages", {sendMessage, user, token, room})
-        }  
+        fetch('http://localhost:3000/api/messages', {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                authorization: token
+            },
+            body: JSON.stringify({sendMessage, user, room})
+        })
         setSendMessage('');
     }
     
@@ -257,7 +270,6 @@ export default function Talk({ user, id, picture, appId }) {
                         <input type="button" onClick={openPopup} className={styles.invite_button} value="Convidar Amigos" />
                         <input type="button" onClick={openVoicePlayers} className={styles.voiceChatButton} value="🗣️Chat de Voz"/>
                     </div>
-                    
                     <div className={styles.messagesContainer}>
                         {messages ? 
                             messages.map((msg, index) => (
@@ -271,13 +283,12 @@ export default function Talk({ user, id, picture, appId }) {
                                 <p className={styles.message}>
                                     {msg.message}
                                 </p>
-                            </div>   
+                                </div>   
                             ))
                             : ""
                         }
-                        
+                        <div id="messageEnd"></div>
                     </div>
-
                     <div className={styles.form_container}>
                         <form className={styles.form} onSubmit={handleSubmit}>
                            <div className={styles.input_container}>

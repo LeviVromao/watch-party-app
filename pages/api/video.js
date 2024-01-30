@@ -1,13 +1,20 @@
 import Pusher from "pusher";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
     const token = req.headers.authorization;
-    const { video, room } = req.body;
     
-    if(req.method === 'POST') {
+    if (req.method === 'POST') {
+        try {
+            if (!token) {
+                throw new Error('Authorization token not provided.');
+            }
 
-        if(token) {
-            
+            const { video, room } = req.body;
+
+            if (!video || !room) {
+                throw new Error('Invalid request body. Required properties are missing.');
+            }
+
             const pusher = new Pusher({
                 appId: "1624128",
                 key: "91b3f8b373b617f82771",
@@ -15,35 +22,26 @@ export default function handler(req, res) {
                 cluster: "sa1",
                 useTLS: true
             });
+
             const url = video;
             const regex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?(?=.*v=[\w-]+)(?:\S+)?|embed\/[\w-]+|v\/[\w-]+|(?:(?:[\w-]+\.)*[\w-]+\/?)\S+)|youtu\.be\/[\w-]+)$/;
+
             const isYoutubeURL = regex.test(url);
 
-            if(isYoutubeURL) {
-
+            if (isYoutubeURL) {
                 const videoId = video.match(/(?:\/|%3D|v=|vi=|\/v\/|youtu\.be\/|\/embed\/|\/shorts\/)([0-9A-Za-z_-]{11})(?:[%#?&]|$)/)[1];
-                try {
-                    
-                    pusher.trigger(room, 'videos', {
-                        video: videoId
-                    }, () => res.status(200).end('sent event successfully'));
 
-                } catch (error) {
-                    console.error(error);
-                }
-
+                await pusher.trigger(room, 'video', { video: videoId });
+                res.status(200).json({ error: 'Video event sent successfully.' });
             } else {
-
-                pusher.trigger(room, 'videos', {
-                    error: "Atualmente so é aceito vídeos do youtube."
-                })
-
+                await pusher.trigger(room, 'videos', { error: "Currently only YouTube videos are accepted." });
+                res.status(200).json({ error: 'Error: Currently only YouTube videos are accepted.' });
             }
-
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
         }
-
-    } else {  
-        res.status(405).json({ error: 'Method Not Allowed' })
+    } else {
+        res.status(405).json({ error: 'Method Not Allowed' });
     }
-    
 }
