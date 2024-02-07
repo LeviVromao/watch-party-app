@@ -1,12 +1,14 @@
 import Pusher from "pusher";
+import {config} from "dotenv"
+config()
 
 export default function handler(req, res) {
     if(req.method === 'POST') {
         const {signal, room} = req.body
         const pusher = new Pusher({
-            appId: "1624128",
-            key: "91b3f8b373b617f82771",
-            secret: "fb09525b35dae0e2f097",
+            appId: process.env.APPID,
+            key: process.env.PUSHERKEY,
+            secret: process.env.PUSHERSECRET,
             cluster: "sa1",
             useTLS: true
         });

@@ -5,10 +5,11 @@ import styles from "../../styles/Chat.module.css";
 import data from '@emoji-mart/data'
 import Picker  from "@emoji-mart/react";
 import { useEffect, useRef, useState } from "react";
-import Pusher from "pusher-js";
+import Pusher, { Channel } from "pusher-js";
 import Image from "next/image";
 import { getApiClient } from "../../services/apiClient";
 import { IEmoji } from "../../services/Interface";
+import { IoMdBuild } from "react-icons/io";
 import { BiCopy } from 'react-icons/bi'
 import { BiSolidMicrophone } from "react-icons/bi";
 import { PiPhoneDisconnectFill } from "react-icons/pi"
@@ -26,15 +27,17 @@ export default function Talk({ user, id, picture, appId }) {
     const [room, setRoom] = useState("");
     const [popupVisible, setPopupVisible] = useState<Boolean>(false)
     const [ invite, setInvite ] = useState('')
-    const channelRef = useRef(null)
+    const [stream, setStream] = useState<MediaStream>()
+    const channelRef = useRef<Channel>(null)
+    const [notWork, setNotWork] = useState<boolean>(true)
 
     useEffect(() => {
-       const peer = new Peer({initiator: true})
-       const pusher = new Pusher("91b3f8b373b617f82771", {
-        cluster: "sa1"
-       })
-       const roomQuery = new URLSearchParams(window.location.search).get("room");
-       const roomValue = roomQuery || "";
+        let useStream: MediaStream;
+        const pusher = new Pusher("91b3f8b373b617f82771", {
+            cluster: "sa1"
+        })
+        const roomQuery = new URLSearchParams(window.location.search).get("room");
+        const roomValue = roomQuery || "";
        setRoom(roomValue);
        const channel = pusher.subscribe(room)
        channelRef.current = channel
@@ -46,7 +49,7 @@ export default function Talk({ user, id, picture, appId }) {
             setMessages(prevMessages => [
                 ...prevMessages,
                 { message: data.message, name: data.user }
-              ]);
+            ]);
             setSendMessage('')
         })
 
@@ -58,30 +61,18 @@ export default function Talk({ user, id, picture, appId }) {
             }
         })
 
-        peer.on("signal", data => {
-            fetch("https://watch-party-levi.vercel.app/api/peer", {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify({signal: data, room})
-            })
-        })
-
         return () => {
             channel.disconnect()
-            if(peer) {
-                peer.destroy()
-            }
         };
     }, [room])
 
-    const answerCall = () => {
-        const peer = new Peer({initiator: false})
-        if(channelRef.current) {
-            channelRef.current.bind("signal", data => {
-                peer.signal(data.signal)
-            })
+    const startCall = async () => {
+        const voicePlayersPopup = document.querySelector(`.${styles.voicePlayerPopup}`) as HTMLDivElement
+        if(!voicePlayersPopup.style.display.includes("flex")) {
+          voicePlayersPopup.style.display = "flex"
+          setTimeout(() => {
+            setPopupVisible(true)
+          }, 2000);
         }
     }
 
@@ -117,16 +108,6 @@ export default function Talk({ user, id, picture, appId }) {
         }, 2000);
     }
 
-    const openVoicePlayers = () => {
-        const voicePlayersPopup = document.querySelector(`.${styles.voicePlayerPopup}`) as HTMLDivElement
-        if(!voicePlayersPopup.style.display.includes("flex")) {
-            voicePlayersPopup.style.display = "flex"
-            setTimeout(() => {
-                setPopupVisible(true)
-            }, 2000);
-        }
-    }
-
     const closeVoicePlayers = () => {
         const voicePlayersPopup = document.querySelector(`.${styles.voicePlayerPopup}`) as HTMLDivElement
         if(!voicePlayersPopup.style.display.includes("none")) {
@@ -149,7 +130,7 @@ export default function Talk({ user, id, picture, appId }) {
                 setPopupVisible(false)
             } 
 
-            if(popupVisible && !voicePlayerContainer.contains(e.target)) {
+            if(popupVisible && !voicePlayerContainer?.contains(e.target)) {
                 voicePlayerPopup.style.display = "none"
                 setPopupVisible(false)
             }
@@ -180,7 +161,7 @@ export default function Talk({ user, id, picture, appId }) {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=> {
         e.preventDefault()
         const {"authToken": token} = parseCookies();
-        fetch('http://localhost:3000/api/messages', {
+        fetch('https://watch-party-levi.vercel.app/api/messages', {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -225,13 +206,20 @@ export default function Talk({ user, id, picture, appId }) {
                     </div>
                 </div>
                 <div className={styles.voicePlayerPopup}>
+                  {notWork ? 
+                    <div className={styles.voicePlayerContainer}>
+                        <h1>Em manutenção... </h1>
+                        <IoMdBuild />
+                    </div>
+                  :
                     <div className={styles.voicePlayerContainer}>
                         <div className={styles.players}>
                             <BiSolidMicrophone className={styles.muteButton}/>
                             <PiPhoneDisconnectFill className={styles.disconnectButton}/>
                         </div>
                         <MdClose onClick={closeVoicePlayers} className={styles.closeVoicePlayers}/>
-                    </div>
+                    </div> 
+                  }
                 </div>
                 <div className={styles.videoContainer}>
                 {video? 
@@ -268,7 +256,7 @@ export default function Talk({ user, id, picture, appId }) {
                 <div className={styles.chat}>
                     <div className={styles.chat_header}>
                         <input type="button" onClick={openPopup} className={styles.invite_button} value="Convidar Amigos" />
-                        <input type="button" onClick={openVoicePlayers} className={styles.voiceChatButton} value="🗣️Chat de Voz"/>
+                        <input type="button" onClick={startCall} className={styles.voiceChatButton} value="🗣️Entrar no Chat de Voz"/>
                     </div>
                     <div className={styles.messagesContainer}>
                         {messages ? 

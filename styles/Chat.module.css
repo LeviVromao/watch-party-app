@@ -124,7 +124,6 @@
 }
 
 .voicePlayerContainer {
-    width: 202px;
     border-radius: 10px;
     display: flex;
     align-items: self-end;
@@ -134,11 +133,19 @@
     background-color: #772ce8;
 }
 
+.voicePlayerContainer > h1 {
+   color: #FFF;
+}
+
+.voicePlayerContainer svg {
+    font-size: 39px;
+}
+
 .players {
-    align-items: center;
-    width: 100%;
     display: flex;
+    align-items: center;
     justify-content: space-evenly;
+    width: 193px;
 }
 
 .muteButton {

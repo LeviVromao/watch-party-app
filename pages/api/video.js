@@ -1,4 +1,6 @@
 import Pusher from "pusher";
+import { config } from "dotenv";
+config()
 
 export default async function handler(req, res) {
     const token = req.headers.authorization;
@@ -16,9 +18,9 @@ export default async function handler(req, res) {
             }
 
             const pusher = new Pusher({
-                appId: "1624128",
-                key: "91b3f8b373b617f82771",
-                secret: "fb09525b35dae0e2f097",
+                appId: process.env.APPID,
+                key: process.env.PUSHERKEY,
+                secret: process.env.PUSHERSECRET,
                 cluster: "sa1",
                 useTLS: true
             });

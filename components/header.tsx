@@ -15,7 +15,7 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
 
         if(video) {
             const {"authToken": token} = parseCookies()
-            fetch("http://localhost:3000/api/video", {
+            fetch("https://watch-party-levi.vercel.app/api/video", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json",
@@ -65,7 +65,6 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
                                         <Image
                                             src={img}
                                             alt={`A photo by ${user}`}
-                                            loader={() => `${img}`}
                                             className={styles.profileImage}
                                             width={50}
                                             height={50} 
