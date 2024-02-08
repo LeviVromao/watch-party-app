@@ -2,7 +2,7 @@ import Pusher from "pusher";
 import {config} from "dotenv"
 config()
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
     const { sendMessage:message, room, user } = req.body;
     const sanitizedMess = message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     const token = req.headers.authorization;
@@ -18,7 +18,7 @@ export default function handler(req, res) {
                     cluster: "sa1",
                     useTLS: true
                 });
-                pusher.trigger(room, 'message', { 
+                await pusher.trigger(room, 'message', { 
                     message: sanitizedMess, 
                     user
                 });

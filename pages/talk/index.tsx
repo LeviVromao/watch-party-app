@@ -161,7 +161,7 @@ export default function Talk({ user, id, picture, appId }) {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=> {
         e.preventDefault()
         const {"authToken": token} = parseCookies();
-        fetch('https://watch-party-levi.vercel.app/api/messages', {
+        fetch('https://watch-party-levi.vercel.app/api/messages',{
             method: "POST",
             headers: {
                 "Content-type": "application/json",

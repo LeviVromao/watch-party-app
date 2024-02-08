@@ -2,7 +2,7 @@ import Pusher from "pusher";
 import {config} from "dotenv"
 config()
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
     if(req.method === 'POST') {
         const {signal, room} = req.body
         const pusher = new Pusher({
@@ -12,7 +12,7 @@ export default function handler(req, res) {
             cluster: "sa1",
             useTLS: true
         });
-        pusher.trigger(room, 'signal', {
+        await pusher.trigger(room, 'signal', {
             signal
         })
         res.status(200).end('sent event successfully')  
