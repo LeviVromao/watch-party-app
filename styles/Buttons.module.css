@@ -1,0 +1,19 @@
+.button {
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    width: 83%;
+    cursor: pointer;
+}
+
+.logo {
+    font-size: 23px;
+}
+
+.buttonText {
+    font-size: 14px;
+    font-weight: bold;
+}

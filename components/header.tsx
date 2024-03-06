@@ -9,6 +9,7 @@ import React from "react";
 
 export default function Header( { id, inputVideo, noProfile, img, user } ) {
     const [video, setVideo] = useState("");
+    const src = img
     const sendVideo = async event =>{
         event.preventDefault();
         const room = new URLSearchParams(window.location.search).get("room");
@@ -63,6 +64,7 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
                                 (
                                     <Link href={`/profile?id=${id}`}>
                                         <Image
+                                            loader={() => src}
                                             src={img}
                                             alt={`A photo by ${user}`}
                                             className={styles.profileImage}

@@ -7,6 +7,7 @@ import Image from "next/image";
 import { AiOutlineArrowRight } from 'react-icons/ai'
 import React from "react";
 import { setCookie } from "nookies";
+import { GoogleSigInButton } from "../../components/signInButtons";
 
 interface Messages {
   hour: string
@@ -49,6 +50,7 @@ export default function Register() {
       const hours = `${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`
       setTime(hours)
     }, [])
+    
     return (
       <div className={styles.registerBody}>
         <Head>
@@ -109,6 +111,8 @@ export default function Register() {
                   <input className={styles.signupInput} type="password" id="password" onChange={e => setPass(e.target.value)} required/>
                 </div>
                 <input className={styles.signupSubmit} type="submit" value="Enviar" />
+                <span style={{color: "#FFF"}}>Ou</span>
+                <GoogleSigInButton />
               </div>
               <div className={styles.newUser}>
                 <p className={styles.newUserParagraph}>Antigo(a) no Watch Party?</p>

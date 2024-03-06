@@ -1,14 +1,17 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { setCookie } from "nookies";
+import { useState } from "react";
+import { parseCookies, setCookie } from "nookies";
 import { useRouter } from "next/router";
 import styles from "../styles/login.module.css";
 import { Triangle } from "react-loader-spinner";
 import { AiOutlineWechat } from "react-icons/ai"
 import { BsFillMoonFill } from "react-icons/bs"
 import { FaSun } from "react-icons/fa"
+import { GoogleSigInButton } from "../components/signInButtons";
+import { getSession } from "next-auth/react";
 import React from "react";
+import { GetServerSideProps } from "next";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -71,6 +74,7 @@ export default function Login() {
             <input type="password" className={styles.loginInput} id="password" onChange={e => setPassword(e.target.value)} required/>
           </div>
           <input type="submit" value="Entrar" className={styles.loginSubmit}/>
+          <GoogleSigInButton />
         </form>
         {error ? 
         (
@@ -98,4 +102,21 @@ export default function Login() {
       }
     </div>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx)
+  const {"authToken": token} = parseCookies(ctx);
+  if(session || token) {
+    return {
+      redirect: {
+        destination: "/home",
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {}
+  }
 }

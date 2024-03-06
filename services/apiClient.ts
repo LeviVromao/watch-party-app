@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { parseCookies } from 'nookies';
 
-export function getApiClient( ctx ) {
+export function getApiClient( ctx? ) {
     const { "authToken": token } = parseCookies(ctx);
     const api = axios.create({
         baseURL: "https://watch-party-backend.vercel.app/"

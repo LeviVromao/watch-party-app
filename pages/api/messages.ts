@@ -8,7 +8,6 @@ export default async function handler(req, res) {
     const token = req.headers.authorization;
 
     if(req.method === 'POST') {
-
         if(token) {
             try {
                 const pusher = new Pusher({

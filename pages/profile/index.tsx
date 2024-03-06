@@ -10,6 +10,7 @@ import { useState } from "react";
 import { parseCookies } from "nookies";
 import React from "react";
 import { getApiClient } from "../../services/apiClient";
+import { getSession } from "next-auth/react";
 
 export default function ProfileIDS( { id, name, picture, message } ){
     const [newName, setNewName] = useState("");
@@ -160,38 +161,53 @@ export default function ProfileIDS( { id, name, picture, message } ){
 
 export async function getServerSideProps(ctx) {
     const {"authToken": token} = parseCookies(ctx);
+    const { user } = await getSession(ctx)
     const id = ctx.query.id
+    let res
 
-    if(!token) {
-        return {
-            redirect: {
-                destination: "/",
-                permanent: false,
-            }
+    if(!token && !user) {
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
         }
+      }
+    }
+
+    if(!id) {
+      return {
+        props: {
+          message: "Como você chegou até aqui? 😱"
+        }
+      }
     }
 
     const apiClient = getApiClient(ctx);
+    if(token){
+        res = await apiClient.post("/user", {}, {
+          headers: {
+            authorization: token,
+          }
+        });
+      } 
+      else if(user) {
+        res = await fetch("https://watch-party-backend.vercel.app/user", {
+          method: "POST",
+          headers: {
+            "Content-Type":"application/json",
+            session: JSON.stringify(user)
+          },
+          body: JSON.stringify({})
+        })
+      }
 
-    if(!id) {
-        return {
-            props: {
-                message: 'Você precisa do ID para resgatar seu perfil :)'
-            }
-        }
-    }
-
-    const { data } = await apiClient.post('/user', {
-        id
-    })
-
-    const { name = '', picture = '', id: _id = '' } = data.user;
+    const { name = '', picture = '', id: _id = '' } = res.data || await res.json()
 
     return {
-        props: {
-            name, 
-            picture,
-            id
-        }
+      props: {
+        name, 
+        picture,
+        id
+      }
     }
 }

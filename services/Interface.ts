@@ -6,3 +6,10 @@ export interface IEmoji {
     shortcodes: string
     unified: string
 }
+
+export interface IUser {
+    email: string,
+    _id: string,
+    picture: string,
+    name: string
+}

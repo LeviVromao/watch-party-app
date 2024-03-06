@@ -5,6 +5,7 @@ import styles from "../../styles/Home.module.css";
 import Header from "../../components/header";
 import { AiOutlineArrowUp } from "react-icons/ai"
 import React from "react";
+import { getSession } from "next-auth/react";
 
 export default function Home( { _id, name, picture } ) {
     return (
@@ -62,30 +63,59 @@ export default function Home( { _id, name, picture } ) {
 }
 
 export const getServerSideProps = async (ctx) =>{
-    const {"authToken": token} = parseCookies(ctx)
-    if(!token) {
-        return {
-            redirect: {
-                destination: "/",
-                permanent: false,
-            }
-        }
-    }
+  const {"authToken": token} = parseCookies(ctx)
+  const session = await getSession(ctx)
+  let res;
 
-    const apiClient = getApiClient(ctx);
-    const { data } = await apiClient.post("/user", {}, {
-        headers: {
-            authorization: token,
-        }
-    });
-
-    const { _id, name = '', picture = '' } = data.user
+  if(!token && !session) {
     return {
-        props: {
-            _id, 
-            ...(name && {name}), 
-            ...(picture && {picture})
-        }
+      redirect: {
+        destination: "/",
+        permanent: false,
+      }
     }
+  }
 
+  const apiClient = getApiClient(ctx);
+
+  await fetch("https://watch-party-backend.vercel.app/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(
+      {
+        email: session.user.email, 
+        googleUsername: session.user.name,
+        googleUserImage: session.user.image
+      }
+    )
+  })
+    
+  if(token){
+    res = await apiClient.post("/user", {}, {
+      headers: {
+        authorization: token,
+      }
+    });
+  } 
+  else if(session) {
+    res = await fetch("https://watch-party-backend.vercel.app/user", {
+      method: "POST",
+      headers: {
+        "Content-Type":"application/json",
+        session: JSON.stringify(session.user)
+      },
+      body: JSON.stringify({})
+    })
+  }
+  
+  const { _id, name = '', picture = '' } = res.data || await res.json()
+  return {
+    props: {
+      _id, 
+      ...(name && {name}), 
+      ...(picture && {picture})
+    }
+  }
 }
