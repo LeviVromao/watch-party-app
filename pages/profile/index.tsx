@@ -3,7 +3,7 @@ import { api } from "../../services/api";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../../styles/Profile.module.css"
-import Router  from "next/router";
+import Router from "next/router";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useState } from "react";
@@ -16,47 +16,42 @@ export default function ProfileIDS( { id, name, picture, message } ){
     const [newName, setNewName] = useState("");
     const [image, setImage] = useState('');
     const [error, setError] = useState("");
+    
+    const redirectToHome = () => {
+        Router.push('/home');
+    }
 
     const handleSave = async e =>{
-        e.preventDefault()
+        e.preventDefault();
         confirmAlert({
-            title: 'Confirmação',
-            message: 'Deseja salvar as alterações feitas até agora?',
-            buttons: [
-                {
-                    label: 'Sim',
-                    onClick: async () => {
-                        if( image && !newName ) {
-                            await api.post('/updateUser', {
-                                image, 
-                                id
-                            })
-            
-                        } else if( newName && !image ) {
-                            await api.post("/updateUser", {
-                                name: newName,
-                                id
-                            })
-            
-                        } else if( newName && image ){
-                            await api.post("/updateUser", {
-                                name: newName,
-                                image,
-                                id
-                            })
-                
-                        } else {
-                            setError("Precisa editar algum campo para continuar, ou cancele se desejar.")
-                        }
-                        setNewName("")
-                        setImage(null);
-                    }
-                },
-                {
-                    label: 'Não'
+          title: 'Confirmação',
+          message: 'Deseja salvar as alterações feitas até agora?',
+          buttons: [
+            {
+              label: 'Sim',
+              onClick: async () => {
+                if (image && !newName) {
+                    await api.post('/updateUser', { image, id });
+                    redirectToHome();
+                } else if (newName && !image) {
+                  await api.post("/updateUser", { name: newName, id });
+                  redirectToHome();
+                } else if (newName && image) {
+                  await api.post("/updateUser", { name: newName, image, id });
+                  redirectToHome();
+                } else {
+                  setError("Precisa editar algum campo para continuar, ou cancele se desejar.");
+                  return; 
                 }
-            ]
-        })
+                  setNewName("");
+                  setImage(null);
+              }
+            },
+            {
+              label: 'Não'
+            }
+          ]
+        });
     }
 
     const handleCancel = (e) => {
@@ -68,7 +63,7 @@ export default function ProfileIDS( { id, name, picture, message } ){
                 {
                     label: 'Sim',
                     onClick: () => {
-                        Router.push('/home')
+                        redirectToHome();
                     }
                 },
                 {
@@ -161,11 +156,11 @@ export default function ProfileIDS( { id, name, picture, message } ){
 
 export async function getServerSideProps(ctx) {
     const {"authToken": token} = parseCookies(ctx);
-    const { user } = await getSession(ctx)
+    const session = await getSession(ctx)
     const id = ctx.query.id
     let res
 
-    if(!token && !user) {
+    if(!token && !session.user) {
       return {
         redirect: {
           destination: "/",
@@ -190,12 +185,12 @@ export async function getServerSideProps(ctx) {
           }
         });
       } 
-      else if(user) {
+      else if(session.user) {
         res = await fetch("https://watch-party-backend.vercel.app/user", {
           method: "POST",
           headers: {
             "Content-Type":"application/json",
-            session: JSON.stringify(user)
+            session: JSON.stringify(session.user)
           },
           body: JSON.stringify({})
         })

@@ -23,7 +23,7 @@ export default function Home( { _id, name, picture } ) {
                     {name? 
                         <div className={styles.saudation}>
                             <h1 className={styles.title}>
-                                Bem-vindo(a) de volta {name}, escolha uma sala
+                                Bem-vindo(a) de volta <span style={{color: "blue", textTransform: "capitalize"}}>{name}</span>, escolha uma sala
                                 e entre para conversar
                             </h1>
                         </div>
@@ -78,20 +78,22 @@ export const getServerSideProps = async (ctx) =>{
 
   const apiClient = getApiClient(ctx);
 
-  await fetch("https://watch-party-backend.vercel.app/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(
-      {
-        email: session.user.email, 
-        googleUsername: session.user.name,
-        googleUserImage: session.user.image
-      }
-    )
-  })
-    
+  if(session) {
+    await fetch("https://watch-party-backend.vercel.app/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(
+        {
+          email: session.user.email, 
+          googleUsername: session.user.name,
+          googleUserImage: session.user.image
+        }
+      )
+    })
+      
+  }
   if(token){
     res = await apiClient.post("/user", {}, {
       headers: {
