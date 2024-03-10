@@ -102,6 +102,7 @@ export const getServerSideProps = async (ctx) =>{
     });
   } 
   else if(session) {
+    console.log(session)
     res = await fetch("https://watch-party-backend.vercel.app/user", {
       method: "POST",
       headers: {
