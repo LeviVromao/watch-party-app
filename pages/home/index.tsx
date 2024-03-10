@@ -23,7 +23,7 @@ export default function Home( { _id, name, picture } ) {
                     {name? 
                         <div className={styles.saudation}>
                             <h1 className={styles.title}>
-                                Bem-vindo(a) de volta <span style={{color: "blue", textTransform: "capitalize"}}>{name}</span>, escolha uma sala
+                                Bem-vindo(a) de volta <span style={{color: "#3B82E9", textTransform: "capitalize"}}>{name}</span>, escolha uma sala
                                 e entre para conversar
                             </h1>
                         </div>
