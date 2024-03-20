@@ -4,9 +4,10 @@ import { IVideos } from "../../services/Interface"
 config()
 
 export default async function handler(req, res) {
+  const token = req.headers.authorization
+  console.log("fora do if", token)
   if(req.method === "POST") {
     const {room, video}: IVideos = req.body
-    const token = req.headers.authorization
     console.log(video, token, room)
     let videosStatistics = []
 
@@ -40,5 +41,7 @@ export default async function handler(req, res) {
     });
     await pusher.trigger(room, "foundVideos", {videos, videosStatistics})
     res.status(200).json({message: "found videos with success"})
+  }else {
+    res.status(405).json({ error: 'Method Not Allowed' })
   }
 }
