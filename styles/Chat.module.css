@@ -180,9 +180,18 @@
     border-radius: 6px;
 }
 
-.videoContainer {
+.playerContainer {
     width: 100%;
     padding: 10px;
+    overflow-y: scroll;
+}
+
+.playerContainer::-webkit-scrollbar  {
+  width: 12px;
+}
+
+.playerContainer::-webkit-scrollbar-corner {
+  background-color: #141414;
 }
 
 .video {
@@ -357,7 +366,7 @@
         flex-direction: column;
     }
 
-    .videoContainer {
+    .playerContainer {
         margin: 0 auto;
         max-width: 751px;
         height: 276px;

@@ -3,8 +3,9 @@ import Header from "../../components/header";
 import Head from "next/head";
 import styles from "../../styles/Chat.module.css";
 import data from '@emoji-mart/data'
+import Link from "next/link";
 import Picker  from "@emoji-mart/react";
-import { useEffect, useRef, useState } from "react";
+import { Children, useEffect, useRef, useState } from "react";
 import Pusher, { Channel } from "pusher-js";
 import Image from "next/image";
 import { getApiClient } from "../../services/apiClient";
@@ -17,10 +18,13 @@ import { MdClose } from "react-icons/md";
 import { config } from "dotenv"
 import { getSession, useSession } from "next-auth/react";
 import React from 'react'
+import YoutubePlayer from "../../components/YoutubePlayer";
+import FoundVideos from "../../components/FoundVideos";
 config();
 
-export default function Talk({ user, id, picture, appId }) {
-    const [video, setVideo ] = useState("");
+export default function Talk({ user, id, picture, children }) {
+    const [videos, setVideos] = useState("")
+    const [video, setVideo] = useState("")
     const [error, setError] = useState("");
     const [sendMessage, setSendMessage] = useState("");
     const [messages, setMessages] = useState([]);
@@ -37,32 +41,33 @@ export default function Talk({ user, id, picture, appId }) {
       })
       const roomQuery = new URLSearchParams(window.location.search).get("room");
       const roomValue = roomQuery || "";
-       setRoom(roomValue);
-       const channel = pusher.subscribe(room)
-       channelRef.current = channel
+      setRoom(roomValue);
+      const channel = pusher.subscribe(room)
+      channelRef.current = channel
 
-        const hrefValue = window.location.href
-        setInvite(hrefValue)
+      const hrefValue = window.location.href
+      setInvite(hrefValue)
 
-        channel.bind("message", data => {
-            setMessages(prevMessages => [
-                ...prevMessages,
-                { message: data.message, name: data.user }
-            ]);
-            setSendMessage('')
-        })
+      channel.bind("message", data => {
+        setMessages(prevMessages => [
+          ...prevMessages,
+          { message: data.message, name: data.user }
+        ]);
+        setSendMessage('')
+      })
+      
+      channel.bind("foundVideos", data => {
+        setVideos(data.videos)
+      })
 
-        channel.bind("video", data => {
-            if(data.error) {
-                setError(data.error);
-            } else {
-                setVideo(data.video);
-            }
-        })
+      channel.bind("video", data => {
+        setVideo(data.video)
+        setVideos("")
+      })
 
-        return () => {
-            channel.disconnect()
-        };
+      return () => {
+        channel.disconnect()
+      };
     }, [room])
 
     const startCall = async () => {
@@ -220,36 +225,15 @@ export default function Talk({ user, id, picture, appId }) {
               </div> 
             }
         </div>
-          <div className={styles.videoContainer}>
-            {video? 
-            <iframe 
-              src={`https://www.youtube.com/embed/${video}`} 
-              title="YouTube video player" 
-              frameBorder="0"
-              allow="accelerometer;
-              autoplay;
-              clipboard-write;
-              encrypted-media;
-              gyroscope;
-              picture-in-picture; 
-              web-share" 
-              allowFullScreen
-              className={styles.video}
-            >
-            </iframe>
+          <div className={styles.playerContainer}>
+            {videos? 
+              <>
+                <FoundVideos videos={videos} room={room}/>
+              </> 
               : 
-            <div className={styles.videoFake} onClick={handleAdvice}>
-              <Image 
-                src="/YoutubeLOGO.png" 
-                alt="A logo by Youtube" 
-                className={styles.logo}
-                width={79}
-                height={49}
-              />
-              <h1 className={styles.advice}>
-                Você precisa escolher um vídeo para poder assistir.
-              </h1>
-            </div>   
+              <>
+                <YoutubePlayer video={video} handleAdvice={handleAdvice}/>
+              </>
             }
             </div>
               <div className={styles.chat}>
@@ -265,7 +249,7 @@ export default function Talk({ user, id, picture, appId }) {
                         className={styles.message_box}
                       >
                         <p className={styles.user}>
-                            {user || msg.name? (msg.name !== user ? `${msg.name}`: `${user}`) : user = 'ESCOLHA_UM_NOME'}
+                            {user || msg.name? (msg.name !== user ? `${msg.name}`: `${user}`) : user = "ESCOLHA_UM_NOME"}
                         </p>
                         <p className={styles.message}>
                             {msg.message}

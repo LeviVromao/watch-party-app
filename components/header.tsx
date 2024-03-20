@@ -11,21 +11,21 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
     const [video, setVideo] = useState("");
     const src = img
     const sendVideo = async event =>{
-        event.preventDefault();
-        const room = new URLSearchParams(window.location.search).get("room");
-
-        if(video) {
-            const {"authToken": token} = parseCookies()
-            fetch("https://watch-party-levi.vercel.app/api/video", {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json",
-                    authorization: token,
-                },
-                body: JSON.stringify({room, video})
-            })
-            setVideo("");
-        }
+      event.preventDefault();
+      const room = new URLSearchParams(window.location.search).get("room")
+      
+      if(video) {
+        const {"authToken": token} = parseCookies()
+        fetch("http://localhost:3000/api/searchVideos", {
+          method: "POST",
+          headers: {
+            authorization: token,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({video, room})
+        })
+        setVideo("");
+      }
     }
         
     return (
@@ -46,7 +46,7 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
                     <>
                     <form
                         className={styles.form}
-                        onClick={sendVideo}
+                        onSubmit={sendVideo}
                         >
                         <input
                             type="text"

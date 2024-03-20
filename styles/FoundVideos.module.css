@@ -1,0 +1,45 @@
+.videosContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.videoContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.videoImg {
+  object-fit: cover;
+  width: 100%;
+  border-radius: 16px;  
+  cursor: pointer;  
+}
+
+.videoInformation {
+  display: flex;
+  flex-direction: column;
+  padding: 13px 10px;
+  gap: 7px;
+}
+
+.videoTitle {
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.videoDesc {
+  color: #FFF;
+}
+
+@media (min-width:490px ) {
+  .videoContainer {
+    flex-direction: row;
+  }
+  .videoImg {
+    width: auto;
+  }
+}
