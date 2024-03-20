@@ -19,8 +19,8 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
         fetch("https://watch-party-levi-app.vercel.app/api/searchVideos", {
           method: "POST",
           headers: {
-            authorization: token,
-            "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              authorization: token,
           },
           body: JSON.stringify({video, room})
         })

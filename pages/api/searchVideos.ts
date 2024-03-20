@@ -4,11 +4,9 @@ import { IVideos } from "../../services/Interface"
 config()
 
 export default async function handler(req, res) {
-  const token = req.headers.authorization
-  console.log("fora do if", token)
   if(req.method === "POST") {
     const {room, video}: IVideos = req.body
-    console.log(video, token, room)
+    const token = req.headers.authorization
     let videosStatistics = []
 
     if(!token || !room) {
