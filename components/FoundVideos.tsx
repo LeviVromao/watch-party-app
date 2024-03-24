@@ -2,8 +2,13 @@
 import Image from "next/image"
 import { parseCookies } from "nookies"
 import styles from "../styles/FoundVideos.module.css"
+import { useEffect } from "react"
 
 export default function FoundVideos({videos, room}) {
+  useEffect(() => {
+    console.log(videos)
+  }, [videos])
+  
   const handleVideoLink = (e) => {
     const {"authToken": token} = parseCookies()
     const videoId = e.target.getAttribute("aria-valuenow")
