@@ -16,7 +16,7 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
       
       if(video) {
         const {"authToken": token} = parseCookies()
-        fetch("http://localhost:3000/api/searchVideos", {
+        fetch("https://watch-party-levi-app.vercel.app/api/searchVideos", {
           method: "POST",
           headers: {
               "Content-Type": "application/json",

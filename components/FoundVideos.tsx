@@ -12,7 +12,7 @@ export default function FoundVideos({videos, room}) {
     const {"authToken": token} = parseCookies()
     const videoId = e.target.getAttribute("aria-valuenow")
 
-    fetch("http://localhost:3000/api/video", {
+    fetch("https://watch-party-levi-app.vercel.app/api/video", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
