@@ -3,11 +3,9 @@ import Header from "../../components/header";
 import Head from "next/head";
 import styles from "../../styles/Chat.module.css";
 import data from '@emoji-mart/data'
-import Link from "next/link";
 import Picker  from "@emoji-mart/react";
-import { Children, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Pusher, { Channel } from "pusher-js";
-import Image from "next/image";
 import { getApiClient } from "../../services/apiClient";
 import { IEmoji } from "../../services/Interface";
 import { IoMdBuild } from "react-icons/io";
@@ -203,7 +201,7 @@ export default function Talk({ user, id, picture, children }) {
                   value={invite}
                 />
                   <button className={styles.popup_button} onClick={copyInvite}>
-                        Copiar <BiCopy className={styles.popup_icon}/>
+                    Copiar <BiCopy className={styles.popup_icon}/>
                   </button>
               </div>
              </div>
@@ -218,8 +216,8 @@ export default function Talk({ user, id, picture, children }) {
                 :
               <div className={styles.voicePlayerContainer}>
                 <div className={styles.players}>
-                <BiSolidMicrophone className={styles.muteButton}/>
-                <PiPhoneDisconnectFill className={styles.disconnectButton}/>
+                  <BiSolidMicrophone className={styles.muteButton}/>
+                  <PiPhoneDisconnectFill className={styles.disconnectButton}/>
                 </div>
                 <MdClose onClick={closeVoicePlayers} className={styles.closeVoicePlayers}/>
               </div> 
