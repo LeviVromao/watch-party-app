@@ -20,7 +20,7 @@ import YoutubePlayer from "../../components/YoutubePlayer";
 import FoundVideos from "../../components/FoundVideos";
 config();
 
-export default function Talk({ user, id, picture }) {
+export default function Talk({ user, id, picture, children }) {
     const [videos, setVideos] = useState<IYTBVideos>()
     const [video, setVideo] = useState("")
     const [error, setError] = useState("");
