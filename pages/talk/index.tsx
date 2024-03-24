@@ -7,7 +7,7 @@ import Picker  from "@emoji-mart/react";
 import { useEffect, useRef, useState } from "react";
 import Pusher, { Channel } from "pusher-js";
 import { getApiClient } from "../../services/apiClient";
-import { IEmoji } from "../../services/Interface";
+import { IEmoji, IYTBVideos } from "../../services/Interface";
 import { IoMdBuild } from "react-icons/io";
 import { BiCopy } from 'react-icons/bi'
 import { BiSolidMicrophone } from "react-icons/bi";
@@ -20,8 +20,8 @@ import YoutubePlayer from "../../components/YoutubePlayer";
 import FoundVideos from "../../components/FoundVideos";
 config();
 
-export default function Talk({ user, id, picture, children }) {
-    const [videos, setVideos] = useState("")
+export default function Talk({ user, id, picture }) {
+    const [videos, setVideos] = useState<IYTBVideos>()
     const [video, setVideo] = useState("")
     const [error, setError] = useState("");
     const [sendMessage, setSendMessage] = useState("");
@@ -56,11 +56,11 @@ export default function Talk({ user, id, picture, children }) {
       
       channel.bind("foundVideos", data => {
         setVideos(data.videos)
+        setVideo("")
       })
 
       channel.bind("video", data => {
         setVideo(data.video)
-        setVideos("")
       })
 
       return () => {
@@ -224,13 +224,13 @@ export default function Talk({ user, id, picture, children }) {
             }
         </div>
           <div className={styles.playerContainer}>
-            {videos? 
+            {video? 
               <>
-                <FoundVideos videos={videos} room={room}/>
+                <YoutubePlayer video={video} handleAdvice={handleAdvice}/>
               </> 
               : 
               <>
-                <YoutubePlayer video={video} handleAdvice={handleAdvice}/>
+                <FoundVideos videos={videos} room={room}/>
               </>
             }
             </div>

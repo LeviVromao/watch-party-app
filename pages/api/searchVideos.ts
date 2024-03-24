@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         method: "GET",
       })
       const videos = await YTBResponse.json()
-  
+      
       const pusher = new Pusher({
           appId: process.env.APPID,
           key: process.env.PUSHERKEY,

@@ -6,14 +6,13 @@ import { useEffect } from "react"
 
 export default function FoundVideos({videos, room}) {
   useEffect(() => {
-    console.log(videos)
+    console.log(typeof videos)
   }, [videos])
-  
   const handleVideoLink = (e) => {
     const {"authToken": token} = parseCookies()
     const videoId = e.target.getAttribute("aria-valuenow")
 
-    fetch("https://watch-party-levi-app.vercel.app/api/video", {
+    fetch("http://localhost:3000/api/video", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

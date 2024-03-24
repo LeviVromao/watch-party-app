@@ -16,7 +16,7 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
       
       if(video) {
         const {"authToken": token} = parseCookies()
-        fetch("https://watch-party-levi-app.vercel.app/api/searchVideos", {
+        fetch("http://localhost:3000/api/searchVideos", {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
@@ -31,33 +31,33 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
     return (
         <>
             <header className={styles.header}>
-                <Link href={`/home`}>
-                    <Image 
-                        src="/chatLogo.jpg" 
-                        alt={`A icon for the chat app`} 
-                        className={styles.chatIcon}
-                        width={60}
-                        height={60}
-                    />
-                </Link>
+              <Link href={`/home`}>
+                <Image 
+                  src="/chatLogo.jpg" 
+                  alt={`A icon for the chat app`} 
+                  className={styles.chatIcon}
+                  width={60}
+                  height={60}
+                />
+              </Link>
                 {
                 inputVideo?                
-                   (
+                  (
                     <>
                     <form
-                        className={styles.form}
-                        onSubmit={sendVideo}
-                        >
-                        <input
-                            type="text"
-                            className={styles.inputVideo}
-                            placeholder="Pesquisar vídeo no Watch Party"
-                            onChange={e => setVideo(e.target.value)}
-                            value={video} 
-                        />
-                        <button type="submit" className={styles.submit}>
-                            <BiSolidSend className={styles.sendButton} />
-                        </button>
+                      className={styles.form}
+                      onSubmit={sendVideo}
+                    >
+                      <input
+                        type="text"
+                        className={styles.inputVideo}
+                        placeholder="Pesquisar vídeo no Watch Party"
+                        onChange={e => setVideo(e.target.value)}
+                        value={video} 
+                      />
+                      <button type="submit" className={styles.submit}>
+                        <BiSolidSend className={styles.sendButton} />
+                      </button>
                         </form>
                         <div className={styles.formContainer}>
                             {img ?
