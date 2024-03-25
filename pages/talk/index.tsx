@@ -14,7 +14,7 @@ import { BiSolidMicrophone } from "react-icons/bi";
 import { PiPhoneDisconnectFill } from "react-icons/pi"
 import { MdClose } from "react-icons/md";
 import { config } from "dotenv"
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import React from 'react'
 import YoutubePlayer from "../../components/YoutubePlayer";
 import FoundVideos from "../../components/FoundVideos";
@@ -87,7 +87,7 @@ export default function Talk({ user, id, picture }) {
     const appearEmoji = (e: React.MouseEvent<HTMLButtonElement>) => {
         const emoji_card = document.querySelector(`.${styles.emoji_card}`) as HTMLElement
         e.stopPropagation()
-        console.log(emoji_card)
+
         if(emoji_card.style.display === 'block') {
             emoji_card.style.display = 'none'
         } else {
