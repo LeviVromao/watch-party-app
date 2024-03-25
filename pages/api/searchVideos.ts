@@ -25,6 +25,8 @@ export default async function handler(req, res) {
           cluster: "sa1",
           useTLS: true
       });
+      console.log(room, video)
+      console.log(token)
       await pusher.trigger(room, "foundVideos", {videos})
       res.status(200).json({message: "found videos with success"})
     } catch (error) {
