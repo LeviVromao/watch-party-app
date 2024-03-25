@@ -9,7 +9,7 @@ export default async function handler(req, res) {
       const {room, video}: IVideos = req.body
       const token = req.headers.authorization
   
-      if(!token || !room) {
+      if(!room) {
         throw new Error("Access not authorized!")
       }
       
@@ -25,8 +25,7 @@ export default async function handler(req, res) {
           cluster: "sa1",
           useTLS: true
       });
-      console.log(room, video)
-      console.log(token)
+      
       await pusher.trigger(room, "foundVideos", {videos})
       res.status(200).json({message: "found videos with success"})
     } catch (error) {
