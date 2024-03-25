@@ -7,7 +7,6 @@ export default async function handler(req, res) {
   if(req.method === "POST") {
     try {
       const {room, video}: IVideos = req.body
-      const token = req.headers.authorization
   
       if(!room) {
         throw new Error("Access not authorized!")
@@ -18,7 +17,6 @@ export default async function handler(req, res) {
       })
       const videos = await YTBResponse.json()
       console.log("sala", room, "video", video)
-      console.log("APIKEY", process.env.YOUTUBEAPIKEY)
       const pusher = new Pusher({
           appId: process.env.APPID,
           key: process.env.PUSHERKEY,
