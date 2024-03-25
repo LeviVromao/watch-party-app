@@ -18,6 +18,7 @@ export default async function handler(req, res) {
       })
       const videos = await YTBResponse.json()
       console.log("sala", room, "video", video)
+      console.log("APIKEY", process.env.YOUTUBEAPIKEY)
       const pusher = new Pusher({
           appId: process.env.APPID,
           key: process.env.PUSHERKEY,
