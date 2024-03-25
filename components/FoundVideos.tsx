@@ -2,12 +2,8 @@
 import Image from "next/image"
 import { parseCookies } from "nookies"
 import styles from "../styles/FoundVideos.module.css"
-import { useEffect } from "react"
 
 export default function FoundVideos({videos, room}) {
-  useEffect(() => {
-    console.log(typeof videos)
-  }, [videos])
   const handleVideoLink = (e) => {
     const {"authToken": token} = parseCookies()
     const videoId = e.target.getAttribute("aria-valuenow")
@@ -23,29 +19,36 @@ export default function FoundVideos({videos, room}) {
   }
 
   return (
-    <div className={styles.videosContainer}>
-      {videos.items.map((video, i) => (
-        <div className={styles.videoContainer} key={i}>
-          {video.snippet.thumbnails.medium.width &&(
-            <>
-              <Image
-                src={video.snippet.thumbnails.medium.url}
-                key={i}
-                width={video.snippet.thumbnails.medium.width}
-                height={video.snippet.thumbnails.medium.height}
-                alt={`The ${video.snippet.channelTitle} video on Youtube`}
-                aria-valuenow={video.id.videoId}
-                className={styles.videoImg}
-                onClick={handleVideoLink}
-              />
-              <div className={styles.videoInformation}>
-                <h1 onClick={handleVideoLink} className={styles.videoTitle} aria-valuenow={video.id.videoId}>{video.snippet.title}</h1>
-                <p className={styles.videoDesc}>{video.snippet.description}</p>
-              </div>
-            </>
-            )}
+    <>
+      {
+        videos?     
+          <div className={styles.videosContainer}>
+            {videos.items.map((video, i) => (
+              <div className={styles.videoContainer} key={i}>
+                {video.snippet.thumbnails.medium.width &&(
+                  <>
+                    <Image
+                      src={video.snippet.thumbnails.medium.url}
+                      key={i}
+                      width={video.snippet.thumbnails.medium.width}
+                      height={video.snippet.thumbnails.medium.height}
+                      alt={`The ${video.snippet.channelTitle} video on Youtube`}
+                      aria-valuenow={video.id.videoId}
+                      className={styles.videoImg}
+                      onClick={handleVideoLink}
+                    />
+                    <div className={styles.videoInformation}>
+                      <h1 onClick={handleVideoLink} className={styles.videoTitle} aria-valuenow={video.id.videoId}>{video.snippet.title}</h1>
+                      <p className={styles.videoDesc}>{video.snippet.description}</p>
+                    </div>
+                  </>
+                )}
           </div>
-      ))}
-    </div>
+        ))}
+      </div>
+      : 
+      ""
+      }
+    </>
   )
 }

@@ -20,8 +20,8 @@ export default function YoutubePlayer({ handleAdvice, video }) {
           id="videoPlayer"
           className={styles.video}
         >
-            </iframe>
-              : 
+        </iframe>
+            : 
           <div className={styles.videoFake} onClick={handleAdvice}>
               <Image 
                 src="/YoutubeLOGO.png" 

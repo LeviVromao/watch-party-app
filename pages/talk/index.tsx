@@ -24,6 +24,7 @@ export default function Talk({ user, id, picture }) {
     const [videos, setVideos] = useState<IYTBVideos>()
     const [video, setVideo] = useState("")
     const [error, setError] = useState("");
+    const [initialPage, setInitialPage] = useState<Boolean>()
     const [sendMessage, setSendMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const [room, setRoom] = useState("");
@@ -31,7 +32,6 @@ export default function Talk({ user, id, picture }) {
     const [ invite, setInvite ] = useState('')
     const channelRef = useRef<Channel>(null)
     const [notWork, setNotWork] = useState<boolean>(true)
-    const {data} = useSession()
 
     useEffect(() => {
       const pusher = new Pusher("91b3f8b373b617f82771", {
@@ -57,12 +57,13 @@ export default function Talk({ user, id, picture }) {
       channel.bind("foundVideos", data => {
         setVideos(data.videos)
         setVideo("")
+        setInitialPage(false)
       })
 
       channel.bind("video", data => {
         setVideo(data.video)
       })
-
+      setInitialPage(true)
       return () => {
         channel.disconnect()
       };
@@ -86,7 +87,7 @@ export default function Talk({ user, id, picture }) {
     const appearEmoji = (e: React.MouseEvent<HTMLButtonElement>) => {
         const emoji_card = document.querySelector(`.${styles.emoji_card}`) as HTMLElement
         e.stopPropagation()
-
+        console.log(emoji_card)
         if(emoji_card.style.display === 'block') {
             emoji_card.style.display = 'none'
         } else {
@@ -183,7 +184,7 @@ export default function Talk({ user, id, picture }) {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="https://th.bing.com/th/id/OIG.DKYsTD6pJtVIu0.XWPy6?pid=ImgGn" />
       </Head>
-          {error? alert(error) : ""}
+      {error? alert(error) : ""}
       <Header id={id} inputVideo={true} img={picture} user={user} noProfile={true}/>
       <main className={styles.main}>
         <div className={styles.pop_up}>
@@ -224,7 +225,7 @@ export default function Talk({ user, id, picture }) {
             }
         </div>
           <div className={styles.playerContainer}>
-            {video? 
+            {video || initialPage? 
               <>
                 <YoutubePlayer video={video} handleAdvice={handleAdvice}/>
               </> 

@@ -257,6 +257,7 @@
 }
 
 .chat {
+    position: relative;
     display: grid;
     grid-template-rows: max-content 1fr max-content;
     max-width: 350px;
@@ -341,8 +342,8 @@
 
 .emoji_card {
     position: absolute;
-    bottom: 115%;
-    right: 0%;
+    bottom: 10%;
+    right: 2%;
     border: 1px solid black;
     display: none;
     transition: opacity 1s ease;
