@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         method: "GET",
       })
       const videos = await YTBResponse.json()
-      
+      console.log("sala", room, "video", video)
       const pusher = new Pusher({
           appId: process.env.APPID,
           key: process.env.PUSHERKEY,
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
           cluster: "sa1",
           useTLS: true
       });
-      
+      console.log(videos)
       await pusher.trigger(room, "foundVideos", {videos})
       res.status(200).json({message: "found videos with success"})
     } catch (error) {
