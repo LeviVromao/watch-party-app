@@ -236,7 +236,6 @@ export default function Talk({ user, id, picture }) {
               <div className={styles.chat}>
                 <div className={styles.chat_header}>
                   <input type="button" onClick={openPopup} className={styles.invite_button} value="Convidar Amigos" />
-                  <input type="button" onClick={startCall} className={styles.voiceChatButton} value="🗣️Entrar no Chat de Voz"/>
                 </div>
                 <div className={styles.messagesContainer}>
                   {messages ? 
