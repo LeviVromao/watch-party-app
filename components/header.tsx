@@ -58,27 +58,28 @@ export default function Header( { id, inputVideo, noProfile, img, user } ) {
                       <button type="submit" className={styles.submit}>
                         <BiSolidSend className={styles.sendButton} />
                       </button>
-                        </form>
-                        <div className={styles.formContainer}>
-                            {img ?
-                                (
-                                    <Link href={`/profile?id=${id}`}>
-                                        <Image
-                                            loader={() => src}
-                                            src={img}
-                                            alt={`A photo by ${user}`}
-                                            className={styles.profileImage}
-                                            width={50}
-                                            height={50} 
-                                        />
-                                    </Link>
-                                ) :
-                                (
-                                    <Link href={`/profile?id=${id}`}>
-                                        <FaUserCircle className={styles.defaultProfile} />
-                                    </Link>
-                            )}
-                        </div>
+                    </form>
+                    <div className={styles.formContainer}>
+                        {img ?
+                          (
+                            <Link href={`/profile?id=${id}`}>
+                              <Image
+                                loader={() => src}
+                                src={img}
+                                alt={`A photo by ${user}`}
+                                className={styles.profileImage}
+                                width={50}
+                                height={50} 
+                              />
+                            </Link>
+                          ) :
+                          (
+                            <Link href={`/profile?id=${id}`}>
+                              <FaUserCircle className={styles.defaultProfile} />
+                            </Link>
+                          )
+                         }
+                    </div>
                     </>
                     ): 
                         ""

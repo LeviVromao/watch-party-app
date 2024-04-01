@@ -105,20 +105,18 @@ export default function Talk({ user, id, picture }) {
       
     const openPopup = () => {
         const pop_up = document.querySelector(`.${styles.pop_up}`) as HTMLDivElement
-        pop_up.style.display = "flex"
+        pop_up.style.visibility = "visible"
         setTimeout(() => {
             setPopupVisible(true)
         }, 2000);
     }
 
     const closeVoicePlayers = () => {
-        const voicePlayersPopup = document.querySelector(`.${styles.voicePlayerPopup}`) as HTMLDivElement
-        if(!voicePlayersPopup.style.display.includes("none")) {
-            voicePlayersPopup.style.display = "none"
-            setTimeout(() => {
-                setPopupVisible(true)
-            }, 2000);
-        }
+      const voicePlayersPopup = document.querySelector(`.${styles.voicePlayerPopup}`) as HTMLDivElement
+      voicePlayersPopup.style.visibility = "visible"
+      setTimeout(() => {
+        setPopupVisible(true)
+      }, 2000);
     }    
 
     useEffect(() => {
@@ -129,12 +127,12 @@ export default function Talk({ user, id, picture }) {
 
         const handleDocumentClick = (e) => {
             if(popupVisible && !popup_content.contains(e.target)) {
-                pop_up.style.display = "none"
+                pop_up.style.visibility = "hidden"
                 setPopupVisible(false)
             } 
 
             if(popupVisible && !voicePlayerContainer?.contains(e.target)) {
-                voicePlayerPopup.style.display = "none"
+                voicePlayerPopup.style.visibility = "hidden"
                 setPopupVisible(false)
             }
         };

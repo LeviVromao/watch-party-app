@@ -18,7 +18,9 @@
 }
 
 .pop_up {
-    display: none;
+    display: flex;
+    visibility: hidden;
+    transition: all 1s ease-in-out;
     position: fixed;
     top: 0;
     left: 0;
@@ -113,11 +115,12 @@
 }
 
 .voicePlayerPopup {
-    display: none;
+    display: flex;
+    visibility: hidden;
     position: absolute;
     top: 0;
     bottom: 0;
-    backdrop-filter: blur(3px);
+    background-color: rgba(0, 0, 0, 0.5);
     width: 100vw;
     align-items: center;
     justify-content: center;
