@@ -70,3 +70,9 @@
     font-size: 23px;
     color: white;
 }
+
+@media (max-width: 450px) {
+    .form {
+        width: auto;
+    }
+}
