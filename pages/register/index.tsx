@@ -8,6 +8,7 @@ import { AiOutlineArrowRight } from 'react-icons/ai'
 import React from "react";
 import { setCookie } from "nookies";
 import { GoogleSigInButton } from "../../components/signInButtons";
+import { useRouter } from "next/router";
 
 interface Messages {
   hour: string
@@ -21,6 +22,7 @@ export default function Register() {
     const [ loading, setLoading ] = useState<boolean>(false);
     const [ time, setTime ] = useState<string>("");
     const [ messages, setMessages ] = useState<Array<Messages>>([]);
+    const router = useRouter()
     
     const handleRegister = async e =>{
       e.preventDefault();
@@ -41,7 +43,8 @@ export default function Register() {
         setCookie(undefined, 'authToken', data.token, {
           maxAge: 60 * 60 * 1 // 1 hora de sessao.
         })
-        setLoading(false)
+        setLoading(false) 
+        router.push('/home')
       }
     }
 

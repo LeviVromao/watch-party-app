@@ -30,9 +30,10 @@ export default function Home( { _id, name, picture } ) {
                       : 
                       <div className={styles.saudation}>
                             <h1 className={styles.title}>
-                                Clique no ícone acima e personalize seu perfil 😎
-                                <AiOutlineArrowUp />
+                                Clique no ícone acima e personalize seu perfil para poder conversar no chat
+                                😎
                             </h1>
+                            <AiOutlineArrowUp className={styles.arrowPerfil} />
                       </div>
                     }
                     <form className={styles.form} action="/talk">

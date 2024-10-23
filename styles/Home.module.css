@@ -6,6 +6,27 @@
 .saudation {
     height: 45%;
     padding-top: 126px;
+    position: relative;
+}
+
+.arrowPerfil {
+    position: absolute;
+    font-size: 42px;
+    top: 14px;
+    right: 31%;
+    animation: jump 2s infinite;
+}
+
+@keyframes jump {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
 
 .title {
